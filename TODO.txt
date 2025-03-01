@@ -1,0 +1,30 @@
+/my-node-app
+│
+├── /public/               # Static files (HTML, CSS, JS)
+│   ├── index.html
+│   ├── style.css
+│   └── script.js
+│
+├── /routes/               # Route handlers (for different HTTP endpoints)
+│   ├── home.js
+│   └── about.js
+│
+├── /controllers/          # Logic for handling requests (optional)
+│   ├── homeController.js
+│   └── aboutController.js
+│
+├── /models/               # Data handling (like database or business logic)
+│   └── userModel.js
+│
+├── /views/                # Template files (if using a templating engine)
+│   └── home.pug
+│
+├── /middleware/           # Custom middleware (like logging, auth)
+│   └── logger.js
+│
+├── /utils/                # Utility functions (helpers, file reading, etc.)
+│   └── fileUtils.js
+│
+├── server.js              # Main server file (entry point)
+├── package.json           # Project metadata and dependencies
+└── .gitignore             # Git ignore file (for excluding node_modules, etc.)
