@@ -1,3 +1,85 @@
+-- change LOG split after deciding name
+
+RESEARCH
+- how to manage log in stuff...
+
+oder... todo
+-- set up schema / db
+- create user and log in
+- create forms for entering age sex etc..
+- create math on homepage to calculate TDEE and display it
+
+- find api to get food data and add to daily amount..
+
+
+daily food
+- user foreign key
+- DATE
+- calories
+- some nutriants?
+- food eaten (ref to other table?)
+    -- way to finalize and save total foods? that way users forgetting don't save just 400 kcal or somthing...
+
+
+tables:
+- users
+username NOT NULL UNIQUE
+name (first / second?) OPTIONAL
+sex
+age (dob) DATE
+weight
+height
+activity level [0-4]
+
+Sedentary	1.2	Office worker, little/no exercise - 0
+Lightly Active	1.375	Light exercise (1-3 days/week) - 1
+Moderately Active	1.55	Moderate exercise (3-5 days/week) - 2
+Very Active	1.725	Hard exercise (6-7 days/week) - 3
+Super Active	1.9	Athletes, physical labor jobs - 4
+
+{sex, age, weight, height} = BMR
+BMR * activity level = TDEE (Total Daily Energy Expenditure)
+
+- stored food (previous eaten..?)
+user foreign key
+
+data table? - used to show history 
+user foreign key
+DATE
+calories eaten
+weight for that day
+
+
+
+
+
+
+ideas:
+
+- front page should have '0/2000' box always on display
+
+- once a week prompts you to enter weight?
+
+- graphs to track progess
+
+- set goals?
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 /my-node-app
 │
 ├── /public/               # Static files (HTML, CSS, JS)

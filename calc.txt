@@ -1,0 +1,57 @@
+
+
+1. **Basal Metabolic Rate (BMR):** This is the number of calories your body needs at rest to maintain basic functions (breathing, circulation, cell production).  
+2. **Total Daily Energy Expenditure (TDEE):** This includes BMR plus calories burned through physical activity.  
+3. **Body Mass Index (BMI):** While BMI helps categorize weight status, it does not directly determine calorie needs.  
+4. **Activity Level:** More active people require more calories.  
+5. **Goals:** Whether you want to maintain, lose, or gain weight affects your calorie intake.  
+
+### **Step 1: Calculate BMR (Basal Metabolic Rate)**  
+The **Mifflin-St Jeor Equation** is commonly used:  
+
+- **Men:**  
+  \[
+  BMR = (10 \times \text{weight in kg}) + (6.25 \times \text{height in cm}) - (5 \times \text{age in years}) + 5
+  \]
+
+;   BMR=(10×weight in kg)+(6.25×height in cm)−(5×age in years)+5
+
+860 + 1075 - 175 + 5 = 1765
+* 1.375 = 2,427 kcal/day
+
+- **Women:**  
+  \[
+  BMR = (10 \times \text{weight in kg}) + (6.25 \times \text{height in cm}) - (5 \times \text{age in years}) - 161
+  \]
+
+;   BMR=(10×weight in kg)+(6.25×height in cm)−(5×age in years)−161
+
+### **Step 2: Adjust for Activity Level (TDEE Calculation)**  
+Multiply BMR by an **activity factor** to get **Total Daily Energy Expenditure (TDEE):**  
+
+| Activity Level | Multiplier |
+|---------------|-----------|
+| Sedentary (little to no exercise) | 1.2 |
+| Lightly active (1-3 days/week exercise) | 1.375 |
+| Moderately active (3-5 days/week exercise) | 1.55 |
+| Very active (6-7 days/week exercise) | 1.725 |
+| Super active (athletes, hard labor) | 1.9 |
+
+\[
+TDEE = BMR \times \text{activity multiplier}
+\]
+
+; TDEE=BMR×activity multiplier
+
+### **Step 3: Adjust for Weight Goals**  
+- **Maintain weight:** Eat at TDEE  
+- **Lose weight:** Deficit of **250-500 kcal/day** (~0.25-0.5 kg/week)  
+- **Gain weight:** Surplus of **250-500 kcal/day**  
+
+### **References:**  
+- Mifflin, M.D., et al. (1990). "A new predictive equation for resting energy expenditure in healthy individuals." *American Journal of Clinical Nutrition*.  
+- Harris, J.A., & Benedict, F.G. (1919). "A biometric study of basal metabolism in man." *Carnegie Institution of Washington*.  
+- NIH: [Calorie Calculator](https://www.niddk.nih.gov/bwp)  
+- Mayo Clinic: [Daily Calorie Needs](https://www.mayoclinic.org/healthy-lifestyle/weight-loss/in-depth/calories/art-20048065)  
+
+Would you like a simple JavaScript function to calculate this for your app?
