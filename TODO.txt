@@ -1,5 +1,7 @@
 -- change LOG split after deciding name
 
+-- need a dashboard page? if logged in redirect to dashboard?...
+
 RESEARCH
 - how to manage log in stuff...
 
@@ -29,6 +31,8 @@ sex
 age (dob) DATE
 weight
 height
+goal weight?
+weekly goal (+/- INT)???
 activity level [0-4]
 
 Sedentary	1.2	Office worker, little/no exercise - 0

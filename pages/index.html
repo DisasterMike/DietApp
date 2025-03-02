@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <link rel="stylesheet" href="style.css">
+  </head>
+  <body>
+    <h1>Total Daily Energy Expenditure</h1>
+    <h2 class="kcal"></h2>
+    </form>
+    <script>
+        const test = async () => {
+          const req = await fetch('/userdata')
+          .then(r => r.json())
+          
+          console.log(req)
+
+          document.querySelector('.kcal').innerHTML = `0 / ${req.FDEE} kcal`
+        }
+        test()
+    </script>
+  </body>
+</html>
