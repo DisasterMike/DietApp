@@ -1,25 +1,36 @@
 -- change LOG split after deciding name
 
+
+
 -- need a dashboard page? if logged in redirect to dashboard?...
+
+https://www.npmjs.com/package/jsonwebtoken - for sign in?
 
 RESEARCH
 - how to manage log in stuff...
 
 oder... todo
--- set up schema / db
-- create user and log in
-- create forms for entering age sex etc..
-- create math on homepage to calculate TDEE and display it
-
+-- set up schema / dbs
+- create sql queries and test CRUD actions on db
+- set up routes to add those / basic pages with forms/buttons
+- user sign in authentication
+- home/dashboard
+- info questionaire (fill out profile)
+- test with different accounts
 - find api to get food data and add to daily amount..
+- store data for test profiles (calories)
+- basic styling
+- create graph etc based on recorded data
+- phone feature with openai to get/store food data
 
 
-daily food
+daily data
 - user foreign key
 - DATE
 - calories
+- weight
 - some nutriants?
-- food eaten (ref to other table?)
+- food eaten (ref to other table?) // probably not necessary
     -- way to finalize and save total foods? that way users forgetting don't save just 400 kcal or somthing...
 
 
@@ -27,7 +38,7 @@ tables:
 - users
 username NOT NULL UNIQUE
 name (first / second?) OPTIONAL
-sex
+gender
 age (dob) DATE
 weight
 height
@@ -46,12 +57,24 @@ BMR * activity level = TDEE (Total Daily Energy Expenditure)
 
 - stored food (previous eaten..?)
 user foreign key
+    // need join table
+- id
+- food info (multiple columns..)
+- 
+
+JOIN 
+- user id
+- food id
+- how often eaten
 
 data table? - used to show history 
 user foreign key
 DATE
 calories eaten
 weight for that day
+
+today's food - MANY TO MANY
+
 
 
 
@@ -61,6 +84,10 @@ weight for that day
 ideas:
 
 - front page should have '0/2000' box always on display
+    - text under saying deficit or not and how much
+
+- dashboard has popular food choices?
+    - or or favourite food items (ones you recently ate or often eat)
 
 - once a week prompts you to enter weight?
 
