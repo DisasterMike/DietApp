@@ -6,8 +6,8 @@ const calculateTDEE = ({weight, height, age, gender, activity}) => {
 
     const genderVariation = gender === 'male' ? 5 : -161
     const BMR = (10 * weight) + (6.25 * height) - (5 * age) + genderVariation
-    const FDEE = Math.round(BMR * activity)
-    return {FDEE}
+    const TDEE = Math.round(BMR * activity)
+    return {TDEE}
 }
 
 const getActivityFigure = (activityLevel) => {
