@@ -8,7 +8,6 @@ import { URL } from 'url'
 import './global.js'
 import { calculateTDEE, getActivityFigure } from './utils/utils.js'
 import dayjs from 'dayjs'
-import { generateKey } from 'node:crypto'
 
 const host = '127.0.0.1'
 const port = 3000

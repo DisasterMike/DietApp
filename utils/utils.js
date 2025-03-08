@@ -26,4 +26,34 @@ const getActivityFigure = (activityLevel) => {
 // -- 3 - Very Active	            1.725	Hard exercise (6-7 days/week)
 // -- 4 - Super Active	            1.9	Athletes, physical labor jobs
 
+
+
+const asyncPool = async (size, items, callback) => {
+	const pool = []
+	for (let i = 0; items.length > i; i++) {
+		const promise = callback(i)
+			.then(() => pool.splice(pool.indexOf(promise), 1))
+		pool.push(promise)
+		if (pool.length >= size) {
+			await Promise.race(pool)
+		}
+	}
+	return Promise.all(pool)
+}
+
+// const runStressTest = async () => {
+// 	const promises = []
+
+// 	const tasks = new Array(10)
+
+// 	console.time('timer')
+// 	await asyncPool(10, tasks, async i => {
+// 		// await insertTest()
+// 		await readTest()
+// 	})
+// 	console.timeEnd('timer')
+
+// }
+// runStressTest()
+
 export { calculateTDEE, getActivityFigure }
