@@ -1,29 +1,34 @@
-import mysql from 'mysql2'
 import '../global.js'
+import pool from './pool.js'
 
+const query = async (sqlQuery, params) => {
 
-const connection = mysql.createConnection({
-    host: '',
-    user: '',
-    password: '',
-    database: '',
-})
+    return new Promise((res, rej) => {
+        pool.execute(sqlQuery, params, (err, results) => {
+            if (err) {
+                rej(err)
+            } else {
+                res(results)
+                LOG(`mysql query: ${sqlQuery.trim()}, [${params}]`)
+            }
+        })
+    })
+}
 
-connection.connect((err) => {
-    if (err) {
-        ERR('Error connecting to mysql: ', err)
-    }
-    LOG('Connected to mysql')
-})
+const updateTable = async (tableName, indexes, queryData) => {
 
-export { connection }
+    const columns = Object.keys(queryData).map(i => `${i} = ?`)
+    const primaryIndexes = Object.keys(indexes).map(i => `${i} = ?`)
 
+    let sqlQuery = `
+    UPDATE ${tableName}
+    SET ${columns.join(', ')}
+    WHERE ${primaryIndexes.join(' AND ')}`
 
-// const queryDatabase = (query) => {
-//     connection.query(query)
-// }
+    // LOG(sqlQuery, [...Object.values(queryData), ...Object.values(indexes)])
+    await query(sqlQuery, [...Object.values(queryData), ...Object.values(indexes)])
 
-// // EX
-// queryDatabase(`
-//     SELECT * FROM ????
-// `)
+    LOG(`Updated table ${tableName}, with columns: ${Object.keys(queryData).join(', ')}`)
+}
+
+export default { query, updateTable }

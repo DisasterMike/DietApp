@@ -3,6 +3,8 @@ import fs from 'node:fs'
 import path from 'path'
 // import { dirname } from 'node:path'
 
+import mysql from './mysql/index.js'
+
 import { URL } from 'url'
 
 import './global.js'
@@ -72,29 +74,24 @@ const loginPage = async (req, res) => {
     }
 }
 
-const fetchUserData = (req, res) => {
+const fetchUserData = async (req, res) => {
     // dashboard?
 
-    // const {weight, height, dob, gender, activityLevel} = mysql.query()
-    const {weight, height, dob, gender, activityLevel} = (() => {
-        return {
-            dob: '1990-02-16',
-            weight: 86,
-            height: 172,
-            gender: 'male',
-            activityLevel: 1
-        }
-    })()
-    // console.log(weight, height, dob, gender, activityLevel)
+    const user = await mysql.query(`
+        SELECT * FROM diet.user
+        WHERE user_id = ?    
+        `, [1]
+    )
+    const {weight, height, dob, sex, activity_level} = user[0]
 
     const age = dayjs().diff(dob, 'year') // get age from date of birth
-    const activity = getActivityFigure(activityLevel)
+    const activity = getActivityFigure(activity_level)
 
     const TDEE = calculateTDEE({
         age,
         weight,
         height,
-        gender,
+        sex,
         activity,
     })
 
@@ -104,6 +101,7 @@ const fetchUserData = (req, res) => {
 
 const staticFiles = (req, res, fileExt) => {
     const filePath = path.join('public', req.url)
+    // LOG(filePath, fileExt)
 
     const mimeTypes = {
         '.html': 'text/html',
@@ -116,6 +114,9 @@ const staticFiles = (req, res, fileExt) => {
         '.ico': 'image/x-icon',
     }
     const contentType = mimeTypes[fileExt]
+
+    // if (fileExt==='.ico') return
+    // LOG('got past')
 
     serveFile(filePath, contentType, res)
 }

@@ -1,10 +1,10 @@
-const calculateTDEE = ({weight, height, age, gender, activity}) => {
+const calculateTDEE = ({weight, height, age, sex, activity}) => {
 
     // BMR=(10×weight in kg)+(6.25×height in cm)−(5×age in years)+5
     // BMR=(10×weight in kg)+(6.25×height in cm)−(5×age in years)−161
     // TDEE=BMR×activity multiplier
 
-    const genderVariation = gender === 'male' ? 5 : -161
+    const genderVariation = sex === 'male' ? 5 : -161
     const BMR = (10 * weight) + (6.25 * height) - (5 * age) + genderVariation
     const TDEE = Math.round(BMR * activity)
     return {TDEE}

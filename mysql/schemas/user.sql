@@ -1,20 +1,20 @@
-CREATE TABLE data.user (
-    'username' VARCHAR(45) NOT NULL,
-    'email' TEXT NOT NULL,
-    'password' TEXT NOT NULL,
-    'first_name' VARCHAR(45) DEFAULT NULL,
-    'last_name' VARCHAR(45) DEFAULT NULL,
-    'dob' DATE DEFAULT NULL,
-    'gender' VARCHAR(45) DEFAULT NULL, -- INT?
-    'weight' VARCHAR(45) DEFAULT NULL,
-    'height' VARCHAR(45) DEFAULT NULL,
-    'activiy_level' INT DEFAULT NULL,
+CREATE TABLE diet.user (
+    `user_id` INT UNSIGNED AUTO_INCREMENT NOT NULL,
+    `username` VARCHAR(64) NOT NULL,
+    `email` varchar(200) NOT NULL,
+    `password` varchar(64) NOT NULL,
+    `first_name` VARCHAR(64) DEFAULT NULL,
+    `last_name` VARCHAR(64) DEFAULT NULL,
+    `dob` DATE DEFAULT NULL,
+    `sex` enum('male', 'female') DEFAULT NULL,
+    `weight` smallint DEFAULT NULL,
+    `height` smallint DEFAULT NULL,
+    `activity_level` FLOAT DEFAULT NULL,
 
     `created_datetime` datetime DEFAULT CURRENT_TIMESTAMP,
 	`updated_datetime` datetime DEFAULT NULL ON UPDATE CURRENT_TIMESTAMP,
 
-    PRIMARY KEY(username, email)
-
+    PRIMARY KEY(`user_id`, `username`, `email`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci ROW_FORMAT=COMPRESSED
 
 -- activity_level:
