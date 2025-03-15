@@ -13,6 +13,8 @@ const query = async (sqlQuery, params) => {
             }
         })
     })
+
+    // pool.promise.execute()
 }
 
 const updateTable = async (tableName, indexes, queryData) => {
@@ -26,9 +28,11 @@ const updateTable = async (tableName, indexes, queryData) => {
     WHERE ${primaryIndexes.join(' AND ')}`
 
     // LOG(sqlQuery, [...Object.values(queryData), ...Object.values(indexes)])
-    await query(sqlQuery, [...Object.values(queryData), ...Object.values(indexes)])
+    const result = await query(sqlQuery, [...Object.values(queryData), ...Object.values(indexes)])
 
     LOG(`Updated table ${tableName}, with columns: ${Object.keys(queryData).join(', ')}`)
+
+    return result
 }
 
 export default { query, updateTable }
