@@ -6,7 +6,7 @@ import './global.js'
 
 import app from './controllers/application-controller.js'
 import { homePage } from './controllers/home-controller.js'
-import { loginPage } from './controllers/login-controller.js'
+import { loginPage, signUpPage } from './controllers/login-controller.js'
 
 const host = '127.0.0.1'
 const port = 3000
@@ -27,13 +27,13 @@ const server = http.createServer((req, res) => {
     switch (pathname) {
         case '/':
             return homePage(req, res)
-            // break
+            // TODO go to home page or dashboard depending on if logged in or not
         case '/login':
             return loginPage(req, res)
-            // break
+        case '/sign-up':
+            return signUpPage(req, res)
         case '/userdata':
             return app.fetchUserData(req, res)
-            // break
         default:
             res.writeHead(404, { 'Content-Type': 'text/plain' })
 		    res.end('404 not found')

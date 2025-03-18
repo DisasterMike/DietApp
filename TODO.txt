@@ -14,14 +14,22 @@ oder... todo
 - create sql queries and test CRUD actions on db
 - set up routes to add those / basic pages with forms/buttons
 - user sign in authentication
-- home/dashboard
 - info questionaire (fill out profile)
 - test with different accounts
+- home/dashboard
 - find api to get food data and add to daily amount..
 - store data for test profiles (calories)
 - basic styling
 - create graph etc based on recorded data
 - phone feature with openai to get/store food data
+
+- HIDE PASSWORD IN LOGIN/SIGNUP FORM AND REPLACE WITH *s. Have button to toggle view or not...
+- forgot password button - send to email, then to reset
+- when signing up - need to check if username or password is unique (sql will do this with primary keys..)
+
+1 - send back the WHOLE html with the form info there (i guess read the html file then update the fields?)
+or
+2 - use fetch and json (better?) and then only have to touch cookies if sign in was successful
 
 
 daily data
