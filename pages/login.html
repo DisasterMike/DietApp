@@ -6,47 +6,24 @@
     <title>Login Page</title>
     <link rel="stylesheet" href="css/style.css">
     <link rel="icon" href="/favicon.ico" />
+    <script src="js/login.js" defer></script>
 </head>
 <body>
+    <a class="simple-link" href="/">home</a>
     <h1>login</h1>
     <form id="login-form" action="/login" method="POST">
-        <label for="user">Enter Username or email</label>
-        <input type="text" name="user" id="user">
-        <label for="password"></label>
-        <input type="password" name="password" id="password">
+        <input class="l-input" type="text" name="user" id="user" placeholder="username / email">
+        <input class="l-input" type="password" name="password" id="password" autocomplete="off" placeholder="password">
+        <p style="cursor: pointer; display: inline;" id="eye"><@></p>
         <input type="submit" value="submit">
     </form>
-    <button id="eye"><@></button>
-    <script>
-        const form = document.getElementById('login-form')
-        form.addEventListener('submit', async (event) => {
-            event.preventDefault()
+    <p id="form-error-message" style="display: none; color: red;">Error text</p>
+    <p>Forgot your <a class="simple-link" href="#">username</a>, <a class="simple-link" href="#">email</a> or <a class="simple-link" href="#">passsword</a>?</p>
+    <p>Don't have an account? <a class="simple-link" href="/sign-up">Sign up</a> here!</p>
 
-            const formData = new FormData(form)
-            const data = Object.fromEntries(formData.entries())
-            const body = JSON.stringify(data)
 
-            const req = await fetch('/login', {
-                method: 'POST',
-                body,
-            })
-                .then(r => r.json())
-                .catch(e => console.log(e)) // add error on screen?
-                
-            if (req.success) {
-                window.location.href = req.redirect
-            } else {
-                // TODO update form...
-                console.log(req.error)
-            }
-        })
 
-        // TODO adjust..
-        const eye = document.getElementById('eye')
-        eye.addEventListener('click', () => {
-            const passwordBox = document.getElementById('password')
-            passwordBox.type = passwordBox.type === 'password' ? 'text' : 'password'
-        })
-    </script>
+    <!-- <i class="fa-solid fa-eye"></i> -->
+    <!-- <i class="fa-solid fa-eye-slash"></i> -->
 </body>
 </html>

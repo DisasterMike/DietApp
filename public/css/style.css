@@ -1,1 +1,25 @@
-@import 'home/home.css'
+@import 'home/home.css';
+@import 'login/login.css';
+
+
+.simple-link{
+    text-decoration: none;
+    color: #3c93ff;
+    transition: color 0.5s;
+}
+.simple-link:hover{
+    color: #ff3c46;
+}
+
+.desc-text{
+    margin: 0;
+    font-size: 0.9rem;
+}
+
+.text-disable{
+    display: none;
+}
+
+.text-error{
+    color: red;
+}

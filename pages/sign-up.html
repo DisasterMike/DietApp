@@ -8,6 +8,131 @@
     <link rel="icon" href="/favicon.ico" />
 </head>
 <body>
+    <a class="simple-link" href="/">home</a>
+    <a class="simple-link" href="/login">login</a>
     <h1>sign up</h1>
+    <div class="form-container" style="width: 400px; margin: 0 auto;">
+        <form action="/create-account" method="POST" style="display: flex; flex-direction: column;">
+            <label for="username">Pick a Username</label>
+            <input type="text" name="username" id="username" autocomplete="off" autofocus>
+            <p class="desc-text text-disable">Must contain 4 or more letters.</p>
+            <br>
+            <label for="email">Email</label>
+            <input type="text" name="email" id="email" autocomplete="off">
+            <p class="desc-text text-disable">Email error...</p>
+            <br>
+            <label for="passsword">Password</label>
+            <input type="password" name="passsword" id="passsword" autocomplete="off">
+            <p class="desc-text text-disable">Password error...</p>
+            <br>
+            <input type="submit" name="" id="" value="Create an Account">
+        </form>
+        <p>Already have an account? <a class="simple-link" href="/login">Login</a> here!</p>
+    </div>
+    <script>
+        //TODO - add event listener each time a letter is typed and check for validations... (like bgg website)
+
+        const minLetterCheck = /^\w{4,}$/
+        const firstCharCheck = /^[A-Za-z].\w*$/
+
+
+        const usernameInput = document.getElementById('username')
+        const emailInput = document.getElementById('email')
+        const passwordInput = document.getElementById('passsword')
+        const [userInputError, emailInputError, passwordInputError] = document.querySelectorAll('.desc-text')
+
+        usernameInput.addEventListener('focus', (e) => {
+            userInputError.classList.remove('text-disable')
+
+        })
+        usernameInput.addEventListener('blur', (e) => {
+
+            const currInput = usernameInput.value
+            if (!currInput.length) {
+                userInputError.classList.add('text-disable')
+                userInputError.classList.remove('text-error')
+                userInputError.innerText = 'Must contain 4 or more letters..'
+                return
+            }
+
+            if (!firstCharCheck.test(currInput)) {
+                userInputError.classList.add('text-error')
+                userInputError.classList.remove('text-disable')
+                userInputError.innerText = 'First letter must be a letter.'
+                return
+            } else if (!minLetterCheck.test(currInput)) {
+                userInputError.classList.add('text-error')
+                userInputError.classList.remove('text-disable')
+                userInputError.innerText = 'Must be at least 4 characters long.'
+                return
+            } else {
+
+                // TODO check if username is safe to use
+
+                userInputError.classList.remove('text-error')
+                userInputError.classList.add('text-disable')
+            }
+        })
+        usernameInput.addEventListener('keyup', async (e) => {
+            const currInput = usernameInput.value
+            // console.log(e.key)
+            const hasProblems = !minLetterCheck.test(currInput) || !firstCharCheck.test(currInput)
+            if (hasProblems) return
+
+            userInputError.classList.remove('text-error')
+            userInputError.classList.add('text-disable')
+
+            // check for username
+            await fetch(`/sign-up/validate?username=${currInput}`)
+        })
+
+
+        const form = document.querySelector('form')
+        form.addEventListener('submit', async (event) => {
+            event.preventDefault()
+
+            let errors = false
+
+            if (userInputError.classList.contains('text-error')) errors = true
+            if (emailInputError.classList.contains('text-error')) errors = true
+            if (passwordInputError.classList.contains('text-error')) errors = true
+
+            if (!usernameInput.value.length) {
+                userInputError.classList.remove('text-disable')
+                userInputError.classList.add('text-error')
+                userInputError.innerText = 'Please enter a username.'
+                errors = true
+            }
+            if (!emailInput.value.length) {
+                emailInputError.classList.remove('text-disable')
+                emailInputError.classList.add('text-error')
+                emailInputError.innerText = 'Please enter a valid email.'
+                errors = true
+            }
+            if (!passwordInput.value.length) {
+                passwordInputError.classList.remove('text-disable')
+                passwordInputError.classList.add('text-error')
+                passwordInputError.innerText = 'Please pick a password.'
+                errors = true
+            }
+
+
+
+            if (errors) return
+
+            const formData = new FormData(form)
+            const data = Object.fromEntries(formData.entries())
+            const body = JSON.stringify(data)
+
+            console.log(data)
+
+            // const req = await fetch('/create-account', {
+            //     method: 'POST',
+            //     body,
+            // })
+            //     .then(r => r.json())
+            //     .catch(e => console.log(e)) // add error on screen?
+        })
+    </script>
 </body>
 </html>

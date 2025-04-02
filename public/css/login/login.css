@@ -1,0 +1,12 @@
+#login-form .l-input{
+    border: 1px solid #ddd;
+}
+
+.form-error{
+    background-color: #fff0f0;
+    border-color: #bf0000 !important;
+}
+
+.form-wait{
+    background-color: grey;
+}
