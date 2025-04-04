@@ -9,7 +9,11 @@
 </head>
 <body>
     <a class="simple-link" href="/">home</a>
-    <a class="simple-link" href="/login">login</a>
+    <!-- <a class="simple-link" href="/login">login</a> -->
+    <script>
+        // TODO - change the tag to logout if already signed in...
+        document.currentScript.outerHTML = `<a class="simple-link" href="/login">login</a>`
+    </script>
     <h1>sign up</h1>
     <div class="form-container" style="width: 400px; margin: 0 auto;">
         <form action="/create-account" method="POST" style="display: flex; flex-direction: column;">
@@ -21,8 +25,8 @@
             <input type="text" name="email" id="email" autocomplete="off">
             <p class="desc-text text-disable">Email error...</p>
             <br>
-            <label for="passsword">Password</label>
-            <input type="password" name="passsword" id="passsword" autocomplete="off">
+            <label for="password">Password</label>
+            <input type="password" name="password" id="password" autocomplete="off">
             <p class="desc-text text-disable">Password error...</p>
             <br>
             <input type="submit" name="" id="" value="Create an Account">
@@ -30,15 +34,13 @@
         <p>Already have an account? <a class="simple-link" href="/login">Login</a> here!</p>
     </div>
     <script>
-        //TODO - add event listener each time a letter is typed and check for validations... (like bgg website)
-
+        // const charCheck = /^[a-zA-Z\s.,\']$/
         const minLetterCheck = /^\w{4,}$/
         const firstCharCheck = /^[A-Za-z].\w*$/
 
-
         const usernameInput = document.getElementById('username')
         const emailInput = document.getElementById('email')
-        const passwordInput = document.getElementById('passsword')
+        const passwordInput = document.getElementById('password')
         const [userInputError, emailInputError, passwordInputError] = document.querySelectorAll('.desc-text')
 
         usernameInput.addEventListener('focus', (e) => {
@@ -66,16 +68,13 @@
                 userInputError.innerText = 'Must be at least 4 characters long.'
                 return
             } else {
-
-                // TODO check if username is safe to use
-
                 userInputError.classList.remove('text-error')
                 userInputError.classList.add('text-disable')
             }
         })
-        usernameInput.addEventListener('keyup', async (e) => {
+        usernameInput.addEventListener('input', async (e) => {
+
             const currInput = usernameInput.value
-            // console.log(e.key)
             const hasProblems = !minLetterCheck.test(currInput) || !firstCharCheck.test(currInput)
             if (hasProblems) return
 
@@ -83,20 +82,35 @@
             userInputError.classList.add('text-disable')
 
             // check for username
-            await fetch(`/sign-up/validate?username=${currInput}`)
+            const url = `/sign-up/validate?username=${currInput}`
+            const response = await fetch(url)
+                .then(r => r.json())
+                .catch(error => {console.log(error)})
+
+            if (response && response.error) {
+                // add incorrect username error
+                userInputError.classList.add('text-error')
+                userInputError.classList.remove('text-disable')
+                userInputError.innerText = response.error
+            }
         })
 
 
+
+
+
+        // submit form
         const form = document.querySelector('form')
         form.addEventListener('submit', async (event) => {
             event.preventDefault()
 
-            let errors = false
+            let errors = false // for stopping fetch
 
             if (userInputError.classList.contains('text-error')) errors = true
             if (emailInputError.classList.contains('text-error')) errors = true
             if (passwordInputError.classList.contains('text-error')) errors = true
 
+            // add errors if any inputs are empty
             if (!usernameInput.value.length) {
                 userInputError.classList.remove('text-disable')
                 userInputError.classList.add('text-error')
@@ -116,9 +130,7 @@
                 errors = true
             }
 
-
-
-            if (errors) return
+            // if (errors) return
 
             const formData = new FormData(form)
             const data = Object.fromEntries(formData.entries())
@@ -126,12 +138,19 @@
 
             console.log(data)
 
-            // const req = await fetch('/create-account', {
-            //     method: 'POST',
-            //     body,
-            // })
-            //     .then(r => r.json())
-            //     .catch(e => console.log(e)) // add error on screen?
+            const req = await fetch('/sign-up', {
+                method: 'POST',
+                body,
+            })
+                .then(r => r.json())
+                .catch(e => {console.log(e)}) // add error on screen?
+
+            if (!req) return // log some sort of error...
+
+            // TODO redirect to questions page...
+            if (req.success) {
+                window.location.href = req.redirect
+            }
         })
     </script>
 </body>

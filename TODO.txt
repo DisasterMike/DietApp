@@ -23,6 +23,8 @@ oder... todo
 - create graph etc based on recorded data
 - phone feature with openai to get/store food data
 
+FONT AWESOME!!!!!!!!!!!!
+
 - HIDE PASSWORD IN LOGIN/SIGNUP FORM AND REPLACE WITH *s. Have button to toggle view or not...
 - forgot password button - send to email, then to reset
 - when signing up - need to check if username or password is unique (sql will do this with primary keys..)

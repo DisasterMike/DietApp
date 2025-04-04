@@ -9,7 +9,8 @@ import mysql from '../mysql/index.js'
 
 import { homePage } from './home-controller.js'
 import { dashboardPage } from './dashboard-controller.js'
-import { loginPage, signupPage } from './login-controller.js'
+import { loginPage } from './login-controller.js'
+import { signupPage, validateUser } from './sign-up-controller.js'
 
 const staticFiles = (req, res, fileExt) => {
     const filePath = path.join('public', req.url)
@@ -52,6 +53,7 @@ const serveFile = (filePath, contentType, res) => {
 const fetchUserData = async (req, res) => {
     // dashboard?
 
+    // TODO don't hardcode but request based on user signed in
     const user = await mysql.query(`
         SELECT * FROM diet.user
         WHERE user_id = ?    
@@ -88,19 +90,5 @@ const getRawTDEE = async (req, res) => {
     })
 }
 
-// redirect to respective controllers...
-const home = (req, res) => {
-    return homePage(req, res)
-}
-const dashboard = (req, res) => {
-    return dashboardPage(req, res)
-}
-const login = (req, res) => {
-    return loginPage(req, res)
-}
-const signup = (req, res) => {
-    return signupPage(req, res)
-}
-
 export default { staticFiles, serveFile, fetchUserData, getRawTDEE,
-    home, dashboard, login, signup }
+    homePage, dashboardPage, loginPage, signupPage, validateUser }

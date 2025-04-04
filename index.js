@@ -10,7 +10,10 @@ const port = 3000
 
 const server = http.createServer((req, res) => {
 
-    let parsedUrl = new URL(req.url, `http://localhost:${port}`)
+    const protocool = req.headers['x-forwarded-proto'] || 'http'
+    const fullUrl = `${protocool}://${req.headers.host}${req.url}`
+    let parsedUrl = new URL(req.url, fullUrl)
+    // let parsedUrl = new URL(req.url, `http://localhost:${port}`)
     const pathname = parsedUrl.pathname
 
     // server static files
@@ -23,47 +26,26 @@ const server = http.createServer((req, res) => {
     // serve other requests
     if (pathname === '/') {
         // TODO: Redirect to home or dashboard depending on login status
-        return app.home(req, res);
+        return app.homePage(req, res);
     } else if (pathname === '/dashboard') {
-        return app.dashboard(req, res);
+        return app.dashboardPage(req, res);
     } else if (pathname === '/login') {
-        return app.login(req, res);
+        return app.loginPage(req, res);
     } else if (pathname === '/sign-up') {
-        return app.signup(req, res);
+        return app.signupPage(req, res);
     } else if (pathname.includes('/sign-up/validate')) {
-        // check db for if that username exists or not
+        return app.validateUser(req, res, parsedUrl)
+    } else if (pathname === '/createaccount') {
+
     } else if (pathname === '/userdata') {
         return app.fetchUserData(req, res);
     } else if (pathname === '/newdata') {
         return app.getRawTDEE(req, res);
     } else {
-        res.writeHead(404, { 'Content-Type': 'text/plain' });
-        res.end('404 not found');
-        // TODO: Add 404 page
+        // res.writeHead(404, { 'Content-Type': 'text/plain' });
+        // res.end('404 not found');
+        app.serveFile('pages/404.html', 'text/html', res)
     }
-    // switch (pathname) {
-    //     case '/':
-    //         return app.home(req, res)
-    //         // TODO go to home  or dashboard depending on if logged in or not
-    //     case '/dashboard':
-    //         return app.dashboard(req, res)
-    //     case '/login':
-    //         return app.login(req, res)
-    //     case '/sign-up':
-    //         return app.signup(req, res)
-    //     case '/userdata':
-    //         return app.fetchUserData(req, res)
-    //     case '/newdata':
-    //         return app.getRawTDEE(req,res)
-    //     // case pathname.includes('/sign-up/username-validate'):
-    //     case '/sign-up/username-validate':
-    //         LOG('yeaa boiiii')
-    //         break
-    //     default:
-    //         res.writeHead(404, { 'Content-Type': 'text/plain' })
-	// 	    res.end('404 not found')
-    //         // TODO add 404 page
-    // }
 })
 
 server.listen(port, host, () => {

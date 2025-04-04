@@ -17,6 +17,22 @@ const query = async (sqlQuery, params) => {
     // pool.promise.execute()
 }
 
+const createUser = async (username, email, password) => {
+
+    const sqlQuery = `INSERT INTO diet.user (username, email, password)
+    VALUES (?, ?, ?)`
+
+    // validations here?
+        // email regex??
+
+    let errors
+    try {
+        return await query(sqlQuery, [username, email, password])
+    } catch (e) {
+        return {error: e}
+    }
+}
+
 const updateTable = async (tableName, indexes, queryData) => {
 
     const columns = Object.keys(queryData).map(i => `${i} = ?`)
@@ -27,6 +43,8 @@ const updateTable = async (tableName, indexes, queryData) => {
     SET ${columns.join(', ')}
     WHERE ${primaryIndexes.join(' AND ')}`
 
+    //TODO try catch...
+
     // LOG(sqlQuery, [...Object.values(queryData), ...Object.values(indexes)])
     const result = await query(sqlQuery, [...Object.values(queryData), ...Object.values(indexes)])
 
@@ -35,4 +53,4 @@ const updateTable = async (tableName, indexes, queryData) => {
     return result
 }
 
-export default { query, updateTable }
+export default { query, updateTable, createUser }
