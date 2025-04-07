@@ -9,8 +9,9 @@ import mysql from '../mysql/index.js'
 
 import { homePage } from './home-controller.js'
 import { dashboardPage } from './dashboard-controller.js'
-import { loginPage } from './login-controller.js'
+import { loginPage, logout } from './login-controller.js'
 import { signupPage, validateUser } from './sign-up-controller.js'
+import { setupPage }  from './users-controller.js'
 
 const staticFiles = (req, res, fileExt) => {
     const filePath = path.join('public', req.url)
@@ -91,4 +92,4 @@ const getRawTDEE = async (req, res) => {
 }
 
 export default { staticFiles, serveFile, fetchUserData, getRawTDEE,
-    homePage, dashboardPage, loginPage, signupPage, validateUser }
+    homePage, dashboardPage, loginPage, logout, signupPage, validateUser, setupPage }

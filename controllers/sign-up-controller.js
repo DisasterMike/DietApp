@@ -2,8 +2,8 @@ import app from "./application-controller.js"
 import mysql from '../mysql/index.js'
 import '../global.js'
 
-import { URL } from 'url'
 import bcrypt from "bcrypt"
+import cookies from '../utils/cookies-utils.js'
 
 const signupPage = async (req, res) => {
     if (req.method==='GET') {
@@ -27,18 +27,18 @@ const createAccount = async (req, res) => {
 
         const dbInsert = await mysql.createUser(username, email, hashedPassword)
         if (dbInsert.error) {
-            ERR(dbInsert.error)
+            // ERR(dbInsert.error)
+            ERR('mysql error: ', dbInsert.error.sqlMessage)
             res.writeHead(401, {'Content-Type': 'application/json'})
             return res.end(JSON.stringify(dbInsert.error))
         }
 
+        const newUser = await mysql.query(`SELECT * FROM diet.user WHERE username = ?`, [username])
+        await cookies.setSessionToken(newUser[0], res)
+
         res.writeHead(201, {'Content-Type': 'application/json'})
         // return res.end(JSON.stringify({result: 'Successfully created account'}))
-        return res.end(JSON.stringify({success: true, redirect: '/dashboard'}))
-
-        // const query = `INSERT INTO diet.user (username, email, password)
-        // VALUES (?, ?, ?)`
-        // await mysql.query(query, [username, email, hashedPassword])
+        return res.end(JSON.stringify({success: true, redirect: '/setup'}))
     })
 }
 

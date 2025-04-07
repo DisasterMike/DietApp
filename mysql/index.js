@@ -17,6 +17,9 @@ const query = async (sqlQuery, params) => {
     // pool.promise.execute()
 }
 
+// let query = `INSERT INTO ${tableName} (\`${keys.join('`,`')}\`) VALUES ? AS t ON DUPLICATE KEY UPDATE ${updates.join(', ')};`
+
+
 const createUser = async (username, email, password) => {
 
     const sqlQuery = `INSERT INTO diet.user (username, email, password)

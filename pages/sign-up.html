@@ -3,13 +3,12 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Login Page</title>
+    <title>Signup Page</title>
     <link rel="stylesheet" href="css/style.css">
     <link rel="icon" href="/favicon.ico" />
 </head>
 <body>
     <a class="simple-link" href="/">home</a>
-    <!-- <a class="simple-link" href="/login">login</a> -->
     <script>
         // TODO - change the tag to logout if already signed in...
         document.currentScript.outerHTML = `<a class="simple-link" href="/login">login</a>`
@@ -138,18 +137,18 @@
 
             console.log(data)
 
-            const req = await fetch('/sign-up', {
+            const response = await fetch('/sign-up', {
                 method: 'POST',
                 body,
             })
                 .then(r => r.json())
                 .catch(e => {console.log(e)}) // add error on screen?
 
-            if (!req) return // log some sort of error...
+            if (!response) return // log some sort of error...
 
             // TODO redirect to questions page...
-            if (req.success) {
-                window.location.href = req.redirect
+            if (response.success) {
+                window.location.href = response.redirect
             }
         })
     </script>

@@ -1,6 +1,11 @@
 -- change LOG split after deciding name
 
+- change home, login etc links when signed in
+- make sure can't sign up or log in when already logged in
 
+- MAKE DASHBOARD GRAB DATA FROM CORRECT user
+    // need to adjust page for when the user hasn't filled out the form 
+        // add a link to go to set up page if it detects missing data
 
 -- need a dashboard page? if logged in redirect to dashboard?...
 

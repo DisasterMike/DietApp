@@ -26,24 +26,25 @@ const server = http.createServer((req, res) => {
     // serve other requests
     if (pathname === '/') {
         // TODO: Redirect to home or dashboard depending on login status
-        return app.homePage(req, res);
+        return app.homePage(req, res)
     } else if (pathname === '/dashboard') {
-        return app.dashboardPage(req, res);
+        return app.dashboardPage(req, res)
     } else if (pathname === '/login') {
-        return app.loginPage(req, res);
+        return app.loginPage(req, res)
+    } else if (pathname === '/logout') {
+        return app.logout(req, res)
     } else if (pathname === '/sign-up') {
-        return app.signupPage(req, res);
+        return app.signupPage(req, res)
     } else if (pathname.includes('/sign-up/validate')) {
         return app.validateUser(req, res, parsedUrl)
-    } else if (pathname === '/createaccount') {
-
+    } else if (pathname === '/setup') {
+        return app.setupPage(req, res)
     } else if (pathname === '/userdata') {
-        return app.fetchUserData(req, res);
+        return app.fetchUserData(req, res)
     } else if (pathname === '/newdata') {
-        return app.getRawTDEE(req, res);
+        return app.getRawTDEE(req, res)
     } else {
-        // res.writeHead(404, { 'Content-Type': 'text/plain' });
-        // res.end('404 not found');
+        // show 404 page
         app.serveFile('pages/404.html', 'text/html', res)
     }
 })
@@ -67,8 +68,8 @@ process
 
 
 
-//     const http = require('http');
-// const url = require('url');
+//     const http = require('http')
+// const url = require('url')
 
 // const routes = {
 //     'GET /movies': (req, res) => res.end('List movies'),
@@ -76,22 +77,22 @@ process
 //     'POST /movies': (req, res) => res.end('Create movie'),
 //     'PUT /movies/:id': (req, res, id) => res.end(`Update movie ${id}`),
 //     'DELETE /movies/:id': (req, res, id) => res.end(`Delete movie ${id}`),
-// };
+// }
 
 // http.createServer((req, res) => {
-//     const { pathname } = url.parse(req.url);
-//     const method = req.method;
+//     const { pathname } = url.parse(req.url)
+//     const method = req.method
 
 //     for (const route in routes) {
-//         const [routeMethod, routePath] = route.split(' ');
-//         const regex = new RegExp('^' + routePath.replace(/:\w+/g, '(\\d+)') + '$');
-//         const match = pathname.match(regex);
+//         const [routeMethod, routePath] = route.split(' ')
+//         const regex = new RegExp('^' + routePath.replace(/:\w+/g, '(\\d+)') + '$')
+//         const match = pathname.match(regex)
 
 //         if (match && method === routeMethod) {
-//             return routes[route](req, res, ...match.slice(1));
+//             return routes[route](req, res, ...match.slice(1))
 //         }
 //     }
 
-//     res.writeHead(404, { 'Content-Type': 'text/plain' });
-//     res.end('404 Not Found');
-// }).listen(3000, () => console.log('Server running on port 3000'));
+//     res.writeHead(404, { 'Content-Type': 'text/plain' })
+//     res.end('404 Not Found')
+// }).listen(3000, () => console.log('Server running on port 3000'))
