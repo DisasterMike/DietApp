@@ -13,4 +13,4 @@ const setupPage = async (req, res) => {
     }
 }
 
-export { setupPage }
+export default { setupPage }

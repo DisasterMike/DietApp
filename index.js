@@ -23,24 +23,29 @@ const server = http.createServer((req, res) => {
         return
     }
 
+    // TODO - MAYBE MOVE ALL THIS INTO A ROUTE SCRIPT....
+
     // serve other requests
     if (pathname === '/') {
-        // TODO: Redirect to home or dashboard depending on login status
-        return app.homePage(req, res)
+        // return app.homePage(req, res)
+        return app.homeController.homePage(req, res)
     } else if (pathname === '/dashboard') {
-        return app.dashboardPage(req, res)
+        return app.dashboardController.dashboardPage(req, res)
+
     } else if (pathname === '/login') {
-        return app.loginPage(req, res)
+        return app.loginController.loginPage(req, res)
     } else if (pathname === '/logout') {
-        return app.logout(req, res)
+        return app.loginController.logout(req, res)
+
     } else if (pathname === '/sign-up') {
-        return app.signupPage(req, res)
+        return app.signupController.signupPage(req, res)
     } else if (pathname.includes('/sign-up/validate')) {
-        return app.validateUser(req, res, parsedUrl)
+        return app.signupController.validateUser(req, res, parsedUrl)
+
     } else if (pathname === '/setup') {
-        return app.setupPage(req, res)
+        return app.usersController.setupPage(req, res)
     } else if (pathname === '/userdata') {
-        return app.fetchUserData(req, res)
+        return app.fetchUserData(req, res) // change to users controller?
     } else if (pathname === '/newdata') {
         return app.getRawTDEE(req, res)
     } else {
@@ -66,6 +71,30 @@ process
 
 
 
+
+
+
+
+
+    // const routeMap = {
+    //     '/': app.homeController.homePage,
+    //     '/dashboard': app.dashboardController.dashboardPage,
+    //     '/login': app.loginController.loginPage,
+    //     '/logout': app.loginController.logout,
+    //     '/sign-up': app.signupController.signupPage,
+    //     '/userdata': app.usersController.fetchUserData,
+    //     '/newdata': app.usersController.getRawTDEE,
+    //     '/setup': app.usersController.setupPage,
+    // }
+    // const handler = routeMap[pathname]
+    // if (handler) {
+    //     return handler(req, res)
+    // } else if (pathname.includes('/sign-up/validate')) {
+    //     return app.signupController.validateUser(req, res, parsedUrl)
+    // } else {
+    //     return app.serveFile('pages/404.html', 'text/html', res)
+    // }
+    
 
 
 //     const http = require('http')

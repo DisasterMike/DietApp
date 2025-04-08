@@ -1,14 +1,25 @@
-const test = async () => {
-    const req = await fetch('/userdata')
-    .then(r => r.json())
+const showCalorieCount = async () => {
+    const response = await fetch('/userdata')
+      .then(r => r.json())
+      // TODO catch...
     
-    // console.log(req)
+    if (!response) {
+      // log error?
+      console.error('error with fetch')
+      return
+    }
+    if (response.error) {
+      // update ui with link to set up account
+      console.error(response.error)
+      return
+    }
 
-    // const totalCalories = 1800
+    // TODO perhaps inset html depending on this condition
+
     let totalCalories = 0
 
     const updateKcal = () => {
-      kcalResult = totalCalories - req.TDEE
+      kcalResult = totalCalories - response.TDEE
       if (kcalResult < 0) {
         kcalResult *= -1 // turn -num into +
         document.querySelector('.kcal-result').innerText = "-" + kcalResult
@@ -17,7 +28,7 @@ const test = async () => {
         document.querySelector('.kcal-result').innerText = "+" + kcalResult
         document.querySelector('.kcal-result').style.color = 'red'
       }
-      document.querySelector('.kcal').innerHTML = `${totalCalories} / ${req.TDEE} kcal`
+      document.querySelector('.kcal').innerHTML = `${totalCalories} / ${response.TDEE} kcal`
     }
 
     updateKcal()
@@ -28,4 +39,4 @@ const test = async () => {
     })
 
   }
-  test()
+  showCalorieCount()

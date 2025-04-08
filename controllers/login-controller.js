@@ -64,4 +64,4 @@ const handlelogin = (req, res) => {
     req.on('end', () => checkUserCredentials(Buffer.concat(parts)))
 }
 
-export { loginPage, logout }
+export default { loginPage, logout }

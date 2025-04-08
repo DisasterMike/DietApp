@@ -5,13 +5,14 @@ import dayjs from 'dayjs'
 import './../global.js'
 
 import { calculateTDEE, getActivityFigure } from '../utils/utils.js'
+import cookies from '../utils/cookies-utils.js'
 import mysql from '../mysql/index.js'
 
-import { homePage } from './home-controller.js'
-import { dashboardPage } from './dashboard-controller.js'
-import { loginPage, logout } from './login-controller.js'
-import { signupPage, validateUser } from './sign-up-controller.js'
-import { setupPage }  from './users-controller.js'
+import homeController from './home-controller.js'
+import dashboardController from './dashboard-controller.js'
+import loginController from './login-controller.js'
+import signupController from './sign-up-controller.js'
+import usersController  from './users-controller.js'
 
 const staticFiles = (req, res, fileExt) => {
     const filePath = path.join('public', req.url)
@@ -52,15 +53,20 @@ const serveFile = (filePath, contentType, res) => {
 }
 
 const fetchUserData = async (req, res) => {
-    // dashboard?
 
-    // TODO don't hardcode but request based on user signed in
-    const user = await mysql.query(`
-        SELECT * FROM diet.user
-        WHERE user_id = ?    
-        `, [1]
-    )
+    // get user based on session cookie
+    const sessionToken = await cookies.getSessionToken(req)
+    const sessionRows = await mysql.query(`SELECT user_id FROM diet.sessions WHERE token = ?`, [sessionToken])
+    const {user_id} = sessionRows[0]
+    const user = await mysql.query(`SELECT * FROM diet.user WHERE user_id = ?`, [user_id])
+
     const {weight, height, dob, sex, activity_level} = user[0]
+    // LOG(weight, height, dob, sex, activity_level)
+
+    if (!weight || !height, !dob, !sex, !activity_level) {
+        res.writeHead(200, {'Content-Type': 'application/json'})
+        return res.end(JSON.stringify({error: 'Missing key data'}))
+    }
 
     const age = dayjs().diff(dob, 'year') // get age from date of birth
     const activity = getActivityFigure(activity_level)
@@ -92,4 +98,5 @@ const getRawTDEE = async (req, res) => {
 }
 
 export default { staticFiles, serveFile, fetchUserData, getRawTDEE,
-    homePage, dashboardPage, loginPage, logout, signupPage, validateUser, setupPage }
+    homeController, dashboardController, loginController, signupController, usersController,
+}

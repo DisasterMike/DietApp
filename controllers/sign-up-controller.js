@@ -70,4 +70,4 @@ const validateUser = async (req, res, parsedUrl) => {
     }
 }
 
-export { signupPage, validateUser }
+export default { signupPage, validateUser }

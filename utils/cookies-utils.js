@@ -16,7 +16,7 @@ const getSessionToken = (req) => {
     })
     // console.log(cookies)
 
-    return cookies.find(c => c.session)
+    return cookies.find(c => c.session).session
 }
 
 const setSessionToken = async (user, res) => {

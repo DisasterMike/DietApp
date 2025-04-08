@@ -1,4 +1,8 @@
--- change LOG split after deciding name
+-- change LOG split after deciding name!! (in global file)
+
+- make sessions expire periodically
+    // or
+- when doing request, check if exists and valid, if not, delete?
 
 - change home, login etc links when signed in
 - make sure can't sign up or log in when already logged in

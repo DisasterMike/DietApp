@@ -8,4 +8,4 @@ const homePage = async (req, res) => {
 }
 
 
-export { homePage }
+export default { homePage }
