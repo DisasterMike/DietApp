@@ -26,7 +26,6 @@ const server = http.createServer( async (req, res) => {
     const protocool = req.headers['x-forwarded-proto'] || 'http'
     const fullUrl = `${protocool}://${req.headers.host}${req.url}`
     let parsedUrl = new URL(req.url, fullUrl)
-    // let parsedUrl = new URL(req.url, `http://localhost:${port}`)
     const pathname = parsedUrl.pathname
 
     // server static files
@@ -37,8 +36,6 @@ const server = http.createServer( async (req, res) => {
     }
     // let browserCookies = req.headers.cookie
     // LOG('cookies', browserCookies)
-
-    LOG(pathname)
 
     const sessionCheck = await cookiesUtils.deleteExpiredSessions(req, res, pathname)
     if (sessionCheck.expired) return
@@ -76,9 +73,11 @@ const server = http.createServer( async (req, res) => {
     }
 })
 
-server.listen(port, host, () => {
+const onServerStart = () => {
     LOG(`Server is running on http://${host}:${port}`)
-})
+
+}
+server.listen(port, host, onServerStart)
 
 process
 	.on('unhandledRejection', (reason, p) => {

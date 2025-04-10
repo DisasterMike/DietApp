@@ -13,7 +13,7 @@ global.LOG = (...args) => {
     let func
     let file
     if (coreParts.length > 1) { // called inside a function
-        func = coreParts[0]
+        func = coreParts[0].split('.')[1]
         file = coreParts[1].replace(/[\(\)]/g, '').split('DietApp/')[1]
     } else {
         func = 'anonymous'
@@ -30,7 +30,7 @@ global.ERR = (...args) => {
     let func
     let file
     if (coreParts.length > 1) { // called inside a function
-        func = coreParts[0]
+        func = coreParts[0].split('.')[1]
         file = coreParts[1].replace(/[\(\)]/g, '').split('DietApp/')[1]
     } else {
         func = 'anonymous'
