@@ -3,7 +3,7 @@ import mysql from '../mysql/index.js'
 import '../global.js'
 
 import bcrypt from "bcrypt"
-import cookies from '../utils/cookies-utils.js'
+import cookiesUtils from '../utils/cookies-utils.js'
 
 const signupPage = async (req, res) => {
     if (req.method==='GET') {
@@ -34,7 +34,7 @@ const createAccount = async (req, res) => {
         }
 
         const newUser = await mysql.query(`SELECT * FROM diet.user WHERE username = ?`, [username])
-        await cookies.setSessionToken(newUser[0], res)
+        await cookiesUtils.setSessionToken(newUser[0], res)
 
         res.writeHead(201, {'Content-Type': 'application/json'})
         // return res.end(JSON.stringify({result: 'Successfully created account'}))

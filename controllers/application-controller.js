@@ -57,6 +57,9 @@ const fetchUserData = async (req, res) => {
     // get user based on session cookie
     const sessionToken = await cookies.getSessionToken(req)
     const sessionRows = await mysql.query(`SELECT user_id FROM diet.sessions WHERE token = ?`, [sessionToken])
+    
+    // TODO return error.. session token was removed from db!!!
+
     const {user_id} = sessionRows[0]
     const user = await mysql.query(`SELECT * FROM diet.user WHERE user_id = ?`, [user_id])
 

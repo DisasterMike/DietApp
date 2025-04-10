@@ -6,7 +6,7 @@ import bcrypt from "bcrypt"
 import crypto from 'crypto'
 import dayjs from "dayjs"
 
-import cookies from '../utils/cookies-utils.js'
+import cookiesUtils from '../utils/cookies-utils.js'
 
 const loginPage = async (req, res) => {
     if (req.method==='GET') {
@@ -19,7 +19,7 @@ const loginPage = async (req, res) => {
 
 const logout = async (req, res) => {
     // remove session token
-    await cookies.removeSessionToken(req, res)
+    await cookiesUtils.removeSessionToken(req, res)
 
     // redirect to home page
     app.serveFile('pages/index.html', 'text/html', res)
@@ -53,7 +53,7 @@ const handlelogin = (req, res) => {
             return res.end(JSON.stringify({error: 'Invalid password.'}))
         }
 
-        await cookies.setSessionToken(currentUser[0], res)
+        await cookiesUtils.setSessionToken(currentUser[0], res)
 
         res.writeHead(200, { 'Content-Type': 'application/json' })
         res.end(JSON.stringify({success: true, redirect: '/dashboard'}))

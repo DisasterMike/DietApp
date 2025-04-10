@@ -1,6 +1,7 @@
 import mysql from '../mysql/index.js'
 import crypto from 'crypto'
 import dayjs from "dayjs"
+import './../global.js'
 
 const getSessionToken = (req) => {
     let cookies = req.headers.cookie
@@ -21,7 +22,7 @@ const getSessionToken = (req) => {
 
 const setSessionToken = async (user, res) => {
     const sessionToken = crypto.randomBytes(64).toString('hex')
-    const expireTime = dayjs().add(1, 'day').format('YYYY-MM-DD HH:mm:ss')
+    const expireTime = dayjs().add(1, 'hour').format('YYYY-MM-DD HH:mm:ss')
     await mysql.query(`INSERT INTO diet.sessions (user_id, token, expires_at)
         VALUES (?, ?, ?)
     `, [user.user_id, sessionToken, expireTime])
@@ -42,4 +43,29 @@ const removeSessionToken = async (req, res) => {
     res.setHeader('Set-Cookie', 'session=; HttpOnly; Max-Age=0; Path=/')
 }
 
-export default { getSessionToken, setSessionToken, removeSessionToken }
+const deleteExpiredSessions = async (req, res, pathname) => {
+    const sessionToken = await getSessionToken(req)
+    if (!sessionToken) return {expired: false}
+
+    const [tokenInDatabase] = await mysql.query(`SELECT * FROM diet.sessions WHERE token = ?`, [sessionToken])
+    if (!tokenInDatabase) {
+        res.setHeader('Set-Cookie', 'session=; HttpOnly; Max-Age=0; Path=/')
+        res.writeHead(302, { Location: pathname })
+        res.end()
+        LOG('Session token expired')
+        return {expired: true}
+        // TODO maybe always redirect to login page??
+    }
+    return {expired: false}
+}
+
+const updateCurrentSessionToken = async (req, res) => {
+    const sessionToken = await getSessionToken(req)
+    if (!sessionToken) return
+
+    const newExpireDate = dayjs().add(1, 'hour').format('YYYY-MM-DD HH:mm:ss')
+    await mysql.query(`UPDATE diet.sessions SET expires_at = ? 
+    WHERE token = ?`, [newExpireDate, sessionToken])
+}
+
+export default { getSessionToken, setSessionToken, removeSessionToken, deleteExpiredSessions, updateCurrentSessionToken }

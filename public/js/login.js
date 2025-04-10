@@ -14,7 +14,7 @@ form.addEventListener('submit', async (event) => {
     event.preventDefault()
 
     inputs.forEach(i => i.classList.add('form-wait'))
-    await new Promise(r => setTimeout(r, 500))
+    // await new Promise(r => setTimeout(r, 500))
 
     const formData = new FormData(form)
     const data = Object.fromEntries(formData.entries())

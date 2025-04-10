@@ -1,7 +1,7 @@
 import '../global.js'
 import pool from './pool.js'
 
-const query = async (sqlQuery, params) => {
+const query = async (sqlQuery, params, debug = false) => {
 
     return new Promise((res, rej) => {
         pool.execute(sqlQuery, params, (err, results) => {
@@ -9,7 +9,7 @@ const query = async (sqlQuery, params) => {
                 rej(err)
             } else {
                 res(results)
-                LOG(`mysql query: ${sqlQuery.trim()}, [${params}]`)
+                if(debug) LOG(`mysql query: ${sqlQuery.trim()}, [${params}]`)
             }
         })
     })

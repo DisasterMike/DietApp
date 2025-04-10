@@ -4,11 +4,24 @@ import { URL } from 'url'
 // import { dirname } from 'node:path'
 import './global.js'
 import app from './controllers/application-controller.js'
+import cookiesUtils from './utils/cookies-utils.js'
+
+import mysql from './mysql/index.js'
 
 const host = '127.0.0.1'
 const port = 3000
 
-const server = http.createServer((req, res) => {
+const checkSessionTokens = async () => {
+    await new Promise(r => setTimeout(r, 3000))
+    const sessionExpireQuery = `
+        DELETE FROM diet.sessions WHERE expires_at < NOW();
+    `
+    await mysql.query(sessionExpireQuery, [])
+    checkSessionTokens()
+}
+checkSessionTokens()
+
+const server = http.createServer( async (req, res) => {
 
     const protocool = req.headers['x-forwarded-proto'] || 'http'
     const fullUrl = `${protocool}://${req.headers.host}${req.url}`
@@ -22,12 +35,21 @@ const server = http.createServer((req, res) => {
         app.staticFiles(req, res, fileExt)
         return
     }
+    // let browserCookies = req.headers.cookie
+    // LOG('cookies', browserCookies)
+
+    LOG(pathname)
+
+    const sessionCheck = await cookiesUtils.deleteExpiredSessions(req, res, pathname)
+    if (sessionCheck.expired) return
+
+    await cookiesUtils.updateCurrentSessionToken(req, res)
+
 
     // TODO - MAYBE MOVE ALL THIS INTO A ROUTE SCRIPT....
 
     // serve other requests
     if (pathname === '/') {
-        // return app.homePage(req, res)
         return app.homeController.homePage(req, res)
     } else if (pathname === '/dashboard') {
         return app.dashboardController.dashboardPage(req, res)

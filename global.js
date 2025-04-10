@@ -20,7 +20,7 @@ global.LOG = (...args) => {
         file = coreParts[0].replace(/[\(\)]/g, '').split('DietApp/')[1]
     }
 
-    console.log('LOG', getDatetime(), file, func, ...args)
+    console.log('LOG', getDatetime(), file, func, '\n---> ', ...args)
 }
 
 global.ERR = (...args) => {
@@ -37,6 +37,6 @@ global.ERR = (...args) => {
         file = coreParts[0].replace(/[\(\)]/g, '').split('DietApp/')[1]
     }
 
-    console.log('ERR', getDatetime(), file, func, ...args)
+    console.log('ERR', getDatetime(), file, func, '\n---> ', ...args)
 }
 

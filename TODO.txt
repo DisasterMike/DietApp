@@ -1,5 +1,7 @@
 -- change LOG split after deciding name!! (in global file)
 
+- save where the user wanted to go before forcing them to go to the login page, then redirect to there
+
 - make sessions expire periodically
     // or
 - when doing request, check if exists and valid, if not, delete?
