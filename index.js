@@ -12,7 +12,7 @@ const host = '127.0.0.1'
 const port = 3000
 
 const checkSessionTokens = async () => {
-    await new Promise(r => setTimeout(r, 3000))
+    await new Promise(r => setTimeout(r, 60_000))
     const sessionExpireQuery = `
         DELETE FROM diet.sessions WHERE expires_at < NOW();
     `
@@ -21,7 +21,11 @@ const checkSessionTokens = async () => {
 }
 checkSessionTokens()
 
-const server = http.createServer( async (req, res) => {
+const main = async (req, res, parts) => {
+
+    // parse data form request if there is any
+    if (parts.length) req.$fields = JSON.parse(Buffer.concat(parts))
+    parts.length = 0
 
     const protocool = req.headers['x-forwarded-proto'] || 'http'
     const fullUrl = `${protocool}://${req.headers.host}${req.url}`
@@ -71,6 +75,12 @@ const server = http.createServer( async (req, res) => {
         // show 404 page
         app.serveFile('pages/404.html', 'text/html', res)
     }
+}
+
+const server = http.createServer( async (req, res) => {
+    const parts = []
+	req.on('data', c => parts.push(c))
+    req.on('end', () => main(req, res, parts))
 })
 
 const onServerStart = () => {

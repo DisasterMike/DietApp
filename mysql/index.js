@@ -36,10 +36,11 @@ const createUser = async (username, email, password) => {
     }
 }
 
-const updateTable = async (tableName, indexes, queryData) => {
+const updateTable = async (tableName, indexes, queryData) => { // 'name', {index: , }, {data}
 
     const columns = Object.keys(queryData).map(i => `${i} = ?`)
     const primaryIndexes = Object.keys(indexes).map(i => `${i} = ?`)
+    // const primaryIndexes = indexes.map(i => `${i} = ?`)
 
     let sqlQuery = `
     UPDATE ${tableName}

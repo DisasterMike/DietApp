@@ -48,7 +48,11 @@ const deleteExpiredSessions = async (req, res, pathname) => {
     if (!sessionToken) return {expired: false}
 
     const [tokenInDatabase] = await mysql.query(`SELECT * FROM diet.sessions WHERE token = ?`, [sessionToken])
+    // const [expiredToken] = await mysql.query(`SELECT * FROM diet.sessions WHERE token = ? AND expires_at < NOW()`, [sessionToken])
+    // if exits, run logic below and delete it
+    // if (expiredToken) {
     if (!tokenInDatabase) {
+        // await mysql.query(`DELETE FROM diet.sessions WHERE token = ? AND expires_at < NOW();`, [expiredToken])   
         res.setHeader('Set-Cookie', 'session=; HttpOnly; Max-Age=0; Path=/')
         res.writeHead(302, { Location: pathname })
         res.end()

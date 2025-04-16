@@ -4,13 +4,18 @@ const showCalorieCount = async () => {
       // TODO catch...
     
     if (!response) {
-      // log error?
       console.error('error with fetch')
       return
     }
     if (response.error) {
       // update ui with link to set up account
       console.error(response.error)
+      // TODO change html to have only the link to go to setup page...
+
+      const detailsContainer = document.querySelector('.calorie-details')
+      detailsContainer.innerHTML = `
+      <a class="simple-link" href="/setup">Setup account</a>
+      `
       return
     }
 

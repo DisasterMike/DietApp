@@ -1,33 +1,24 @@
+setup page
+// TODO confirmation screen?
+        // thank you screen?
+        // errors for when parts of each form aren't filled out...
+
+- add link to setup from dashboard even when filled out?
+    - popular values from db if they exist.
+
+- make footer date not hard coded..
+
 -- change LOG split after deciding name!! (in global file)
 
 - save where the user wanted to go before forcing them to go to the login page, then redirect to there
 
-- make sessions expire periodically
-    // or
-- when doing request, check if exists and valid, if not, delete?
-
 - change home, login etc links when signed in
 - make sure can't sign up or log in when already logged in
 
-- MAKE DASHBOARD GRAB DATA FROM CORRECT user
-    // need to adjust page for when the user hasn't filled out the form 
-        // add a link to go to set up page if it detects missing data
-
--- need a dashboard page? if logged in redirect to dashboard?...
-
-https://www.npmjs.com/package/jsonwebtoken - for sign in?
-
 RESEARCH
-- how to manage log in stuff...
+- 
 
 oder... todo
--- set up schema / dbs
-- create sql queries and test CRUD actions on db
-- set up routes to add those / basic pages with forms/buttons
-- user sign in authentication
-- info questionaire (fill out profile)
-- test with different accounts
-- home/dashboard
 - find api to get food data and add to daily amount..
 - store data for test profiles (calories)
 - basic styling

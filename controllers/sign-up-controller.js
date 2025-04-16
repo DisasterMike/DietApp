@@ -7,6 +7,14 @@ import cookiesUtils from '../utils/cookies-utils.js'
 
 const signupPage = async (req, res) => {
     if (req.method==='GET') {
+
+        const sessionToken = await cookiesUtils.getSessionToken(req)
+        if (sessionToken) {
+            // already loggin in, so redirect to dashboard
+            res.writeHead(302, { Location: '/dashboard' })
+            return res.end()
+        }
+
         app.serveFile('pages/sign-up.html', 'text/html', res)
     }
     if (req.method==='POST') {
@@ -15,31 +23,27 @@ const signupPage = async (req, res) => {
 }
 
 const createAccount = async (req, res) => {
-    let parts = []
-    req.on('data', c => parts.push(c))
-    req.on('end', async () => {
-        const {username, email, password} = JSON.parse(Buffer.concat(parts))
-        LOG(username, email, password)
+    const {username, email, password} = req.$fields
+    LOG(username, email, password)
 
-        // create a hash password
-        const saltRounds = 10
-        const hashedPassword = await bcrypt.hash(password, saltRounds)
+    // create a hash password
+    const saltRounds = 10
+    const hashedPassword = await bcrypt.hash(password, saltRounds)
 
-        const dbInsert = await mysql.createUser(username, email, hashedPassword)
-        if (dbInsert.error) {
-            // ERR(dbInsert.error)
-            ERR('mysql error: ', dbInsert.error.sqlMessage)
-            res.writeHead(401, {'Content-Type': 'application/json'})
-            return res.end(JSON.stringify(dbInsert.error))
-        }
+    const dbInsert = await mysql.createUser(username, email, hashedPassword)
+    if (dbInsert.error) {
+        // ERR(dbInsert.error)
+        ERR('mysql error: ', dbInsert.error.sqlMessage)
+        res.writeHead(401, {'Content-Type': 'application/json'})
+        return res.end(JSON.stringify(dbInsert.error))
+    }
 
-        const newUser = await mysql.query(`SELECT * FROM diet.user WHERE username = ?`, [username])
-        await cookiesUtils.setSessionToken(newUser[0], res)
+    const newUser = await mysql.query(`SELECT * FROM diet.user WHERE username = ?`, [username])
+    await cookiesUtils.setSessionToken(newUser[0], res)
 
-        res.writeHead(201, {'Content-Type': 'application/json'})
-        // return res.end(JSON.stringify({result: 'Successfully created account'}))
-        return res.end(JSON.stringify({success: true, redirect: '/setup'}))
-    })
+    res.writeHead(201, {'Content-Type': 'application/json'})
+    // return res.end(JSON.stringify({result: 'Successfully created account'}))
+    return res.end(JSON.stringify({success: true, redirect: '/setup'}))
 }
 
 const validateUsername = async (req, res, username) => {

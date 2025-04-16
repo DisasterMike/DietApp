@@ -9,11 +9,17 @@
     <script src="js/dashboard.js"></script>
   </head>
   <body>
-    <a class="simple-link" href="/logout">logout</a>
+    {{navbar}}
     <h1>Total Daily Energy Expenditure</h1>
-    <h2 class="kcal"></h2>
-    <h3 class="kcal-result">-500</h3>
-    <button class="add">Add</button>
+    <div class="calorie-details">
+      <h2 class="kcal"></h2>
+      <h3 class="kcal-result">-500</h3>
+      <!-- <div>{{dashboard_contents}}</div> -->
+      <input type="text" name="food_name" id="food_name" placeholder="banana">
+      <input type="number" name="food_calories" id="food_calories" placeholder="200">
+      <button class="add">Add</button>
+    </div>
     </form>
+    {{footer}}
   </body>
 </html>

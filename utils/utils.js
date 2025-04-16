@@ -26,6 +26,33 @@ const getActivityFigure = (activityLevel) => {
 // -- 3 - Very Active	            1.725	Hard exercise (6-7 days/week)
 // -- 4 - Super Active	            1.9	Athletes, physical labor jobs
 
+const convertWeightIntoKg = (weight, measurement) => {
+    let result
+    if (measurement==='pounds') {
+        result = weight * 0.453592
+        return Math.round(result)
+    } else if (measurement==='stone') {
+        result = weight * 6.35029
+        return Math.round(result)
+    } else {
+        return weight // keep at kg
+    }
+}
+
+const convertHeightIntoCm = (height, measurement) => {
+    let result
+    if (measurement==='inch') {
+        result = height * 2.54
+        return Math.round(result)
+    } else if (measurement==='feet') {
+        // return height * 30.48
+        const numbers = height.toString().split('.')
+        result = (parseInt(numbers[0], 10) * 30.48) + (parseInt(numbers[1], 10) * 2.54)
+        return Math.round(result)
+    } else {
+        return height // keep at cm
+    }
+}
 
 
 const asyncPool = async (size, items, callback) => {
@@ -56,4 +83,4 @@ const asyncPool = async (size, items, callback) => {
 // }
 // runStressTest()
 
-export { calculateTDEE, getActivityFigure }
+export { calculateTDEE, getActivityFigure, convertWeightIntoKg, convertHeightIntoCm }
