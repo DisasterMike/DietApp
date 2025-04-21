@@ -38,7 +38,7 @@ const setupPage = async (req, res) => {
 
         const sessionToken = await cookiesUtils.getSessionToken(req)
         const [{user_id}] = await mysql.query(`
-            SELECT user_id, token FROM diet.sessions WHERE token = ?
+            SELECT user_id FROM diet.sessions WHERE token = ?
         `, [sessionToken])
 
         await mysql.updateTable('diet.user', {user_id}, data)

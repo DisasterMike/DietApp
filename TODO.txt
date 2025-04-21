@@ -1,6 +1,41 @@
+
+    .columns:not(.is-desktop) ????/
+
+<section class="tab-content" data-name="data-seo-html" data-group="data">
+// use this style to search.. seems cool!!
+const inputQuery = 'section[data-name="data-seo-html"] textarea'
+const inputs = Array.from(document.querySelectorAll(inputQuery))
+
+- sign up form jumps around whenever you unfocus on the form, because the messae disappears
+    // to fix, make the message spacing there even when the string is empty.
+        // set the space to be a <br> whenever there is no text??
+            // or just set it to a bunch of empty spaces ???
+
+
+custom food input
+    // have buttons to click and add more fields?
+
+
+downwards arrow
+::after
+border: 3px solid transparent;
+    border-radius: 2px;
+    border-right: 0;
+    border-top: 0;
+    content: " ";
+    display: block;
+    height: .625em;
+    margin-top: -.4375em;
+    pointer-events: none;
+    position: absolute;
+    top: 50%;
+    transform: rotate(-45deg);
+    transform-origin: center;
+    width: .625em;
+
+
 setup page
 // TODO confirmation screen?
-        // thank you screen?
         // errors for when parts of each form aren't filled out...
 
 - add link to setup from dashboard even when filled out?

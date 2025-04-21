@@ -6,7 +6,7 @@ import './../global.js'
 const getSessionToken = (req) => {
     let cookies = req.headers.cookie
     if (!cookies || !cookies.length) return ''
-
+    
     cookies = cookies.split(';').map((c) => {
         const obj = {}
         const cookie = c.split('=')
@@ -15,9 +15,23 @@ const getSessionToken = (req) => {
         obj[key] = value
         return obj
     })
-    // console.log(cookies)
-
     return cookies.find(c => c.session).session
+}
+
+const getCurrentUser = async (req) => {
+    const sessionToken = await getSessionToken(req)
+    if (!sessionToken) return null
+    const [{user_id}] = await mysql.query(`SELECT user_id FROM diet.sessions WHERE token = ?`, [sessionToken])
+    if (!user_id) return null
+    const [user] = await mysql.query(`SELECT * FROM diet.user WHERE user_id = ?`, [user_id])
+    return user
+}
+const getCurrentUserId = async (req) => {
+    const sessionToken = await getSessionToken(req)
+    if (!sessionToken) return null
+    const [{user_id}] = await mysql.query(`SELECT user_id FROM diet.sessions WHERE token = ?`, [sessionToken])
+    // if (!user_id) return null
+    return user_id
 }
 
 const setSessionToken = async (user, res) => {
@@ -72,4 +86,5 @@ const updateCurrentSessionToken = async (req, res) => {
     WHERE token = ?`, [newExpireDate, sessionToken])
 }
 
-export default { getSessionToken, setSessionToken, removeSessionToken, deleteExpiredSessions, updateCurrentSessionToken }
+export default { getSessionToken, setSessionToken, removeSessionToken, deleteExpiredSessions, updateCurrentSessionToken, 
+    getCurrentUser, getCurrentUserId }

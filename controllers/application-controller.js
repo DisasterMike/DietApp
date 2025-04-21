@@ -65,16 +65,20 @@ const serveFullPage = async (filePath) => {
 
 const fetchUserData = async (req, res) => {
 
-    // get user based on session cookie
-    const sessionToken = await cookiesUtils.getSessionToken(req)
-    const sessionRows = await mysql.query(`SELECT user_id FROM diet.sessions WHERE token = ?`, [sessionToken])
+    // // get user based on session cookie
+    // const sessionToken = await cookiesUtils.getSessionToken(req)
+    // // if (!sessionToken) return
+    // const sessionRows = await mysql.query(`SELECT user_id FROM diet.sessions WHERE token = ?`, [sessionToken])
 
-    // TODO return error.. session token was removed from db!!!
+    // // TODO return error.. session token was removed from db!!!
 
-    const {user_id} = sessionRows[0]
-    const user = await mysql.query(`SELECT * FROM diet.user WHERE user_id = ?`, [user_id])
+    // const {user_id} = sessionRows[0]
+    // const user = await mysql.query(`SELECT * FROM diet.user WHERE user_id = ?`, [user_id])
 
-    const {weight, height, dob, sex, activity_level} = user[0]
+    const user = await cookiesUtils.getCurrentUser(req)
+
+    // const {weight, height, dob, sex, activity_level} = user[0]
+    const {weight, height, dob, sex, activity_level} = user
     // LOG(weight, height, dob, sex, activity_level)
 
     if (!weight || !height || !dob || !sex || activity_level===(null || undefined)) { // does this truly work??

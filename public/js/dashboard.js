@@ -1,5 +1,6 @@
 const showCalorieCount = async () => {
-    const response = await fetch('/userdata')
+
+    const response = await fetch('/api/userdata')
       .then(r => r.json())
       // TODO catch...
     
@@ -21,7 +22,10 @@ const showCalorieCount = async () => {
 
     // TODO perhaps inset html depending on this condition
 
-    let totalCalories = 0
+    const calResponse = await fetch('/api/total-calories')
+      .then(r => r.json())
+
+    let totalCalories = calResponse.totalCalories
 
     const updateKcal = () => {
       kcalResult = totalCalories - response.TDEE
@@ -38,10 +42,56 @@ const showCalorieCount = async () => {
 
     updateKcal()
 
-    document.querySelector('.add').addEventListener('click', () => {
-      totalCalories += 250
-      updateKcal()
+    // const addUpFoodEaten = async (list) => {
+    //   let total = 0
+    //   for (let i = 0; i < list.length; i++) {
+    //     const {calories} = list[i]
+    //     console.log(calories)
+    //     total += calories
+    //   }
+    //   console.log('total calories from list ', total)
+    // }
+
+    const foodForm = document.querySelector('.food-input')
+    
+    foodForm.addEventListener('submit', async (e) => {
+      // TODO add food logic here...
+      // totalCalories += 250
+      // updateKcal()
+
+      e.preventDefault()
+
+      const formData = new FormData(foodForm)
+      const data = Object.fromEntries(formData.entries())
+      console.log(data)
+      const body = JSON.stringify(data)
+
+      const response = await fetch('/api/add-food', {
+        method: 'POST',
+        body,
+      })
+        .then(r => r.json())
+
+      const calorieText = document.getElementById('food_calories')
+      calorieText.innerText = response.totalCalories
     })
 
   }
   showCalorieCount()
+
+
+  // TODO (add food button)
+    // enter name and calories
+    // does a fetch to server
+    // checks if that food is in food table, if not add it
+    // add an entry to food eaten table
+    // get response and add to calorie count on page
+
+    // when loading dashboard...
+      // grab all the food eaten entries from today, and get total.
+      // display on screen
+      // add cards based popular foods
+
+    // !!!
+    // need to display food eaten in a card or something
+    // button to delete the food and remove that entry / minus from total

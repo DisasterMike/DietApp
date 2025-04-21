@@ -23,6 +23,8 @@ checkSessionTokens()
 
 const main = async (req, res, parts) => {
 
+    const food = await app.dashboardController.getFoodListForToday(req)
+
     // parse data form request if there is any
     if (parts.length) req.$fields = JSON.parse(Buffer.concat(parts))
     parts.length = 0
@@ -54,7 +56,11 @@ const main = async (req, res, parts) => {
         return app.homeController.homePage(req, res)
     } else if (pathname === '/dashboard') {
         return app.dashboardController.dashboardPage(req, res)
-
+    } else if (pathname === '/api/add-food') {
+        return app.dashboardController.addFoodEaten(req, res)
+    } else if (pathname === '/api/total-calories') {
+        return app.dashboardController.getCurrentEatenFood(req, res)
+        
     } else if (pathname === '/login') {
         return app.loginController.loginPage(req, res)
     } else if (pathname === '/logout') {
@@ -67,7 +73,7 @@ const main = async (req, res, parts) => {
 
     } else if (pathname === '/setup') {
         return app.usersController.setupPage(req, res)
-    } else if (pathname === '/userdata') {
+    } else if (pathname === '/api/userdata') {
         return app.fetchUserData(req, res) // change to users controller?
     } else if (pathname === '/newdata') {
         return app.getRawTDEE(req, res)
