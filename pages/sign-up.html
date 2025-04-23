@@ -8,30 +8,28 @@
     <link rel="icon" href="/favicon.ico" />
 </head>
 <body>
-    <a class="simple-link" href="/">home</a>
-    <script>
-        // TODO - change the tag to logout if already signed in...
-        document.currentScript.outerHTML = `<a class="simple-link" href="/login">login</a>`
-    </script>
-    <h1>sign up</h1>
-    <div class="form-container" style="width: 400px; margin: 0 auto;">
-        <form action="/create-account" method="POST" style="display: flex; flex-direction: column;">
-            <label for="username">Pick a Username</label>
-            <input type="text" name="username" id="username" autocomplete="off" autofocus>
-            <p class="desc-text text-disable">Must contain 4 or more letters.</p>
-            <br>
-            <label for="email">Email</label>
-            <input type="text" name="email" id="email" autocomplete="off">
-            <p class="desc-text text-disable">Email error...</p>
-            <br>
-            <label for="password">Password</label>
-            <input type="password" name="password" id="password" autocomplete="off">
-            <p class="desc-text text-disable">Password error...</p>
-            <br>
-            <input type="submit" name="" id="" value="Create an Account">
-        </form>
-        <p>Already have an account? <a class="simple-link" href="/login">Login</a> here!</p>
+    {{navbar}}
+    <div class="container" style="background-color: var(--core); padding: 24px;">
+        <div class="form-container" style="width: 400px; margin: 0 auto; padding: 24px; background-color: var(--bk-dim); border-radius: 12px;">
+            <form action="/create-account" method="POST" style="display: flex; flex-direction: column;">
+                <label for="username">Pick a Username</label>
+                <input type="text" name="username" id="username" autocomplete="off" autofocus>
+                <p class="desc-text text-disable">Must contain 4 or more letters.</p>
+                <br>
+                <label for="email">Email</label>
+                <input type="text" name="email" id="email" autocomplete="off">
+                <p class="desc-text text-disable">Email error...</p>
+                <br>
+                <label for="password">Password</label>
+                <input type="password" name="password" id="password" autocomplete="off">
+                <p class="desc-text text-disable">Password error...</p>
+                <br>
+                <input type="submit" name="" id="" value="Create an Account">
+            </form>
+            <p>Already have an account? <a class="simple-link" href="/login">Login</a> here!</p>
+        </div>
     </div>
+    {{footer}}
     <script>
         // const charCheck = /^[a-zA-Z\s.,\']$/
         const minLetterCheck = /^\w{4,}$/

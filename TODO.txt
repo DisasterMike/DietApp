@@ -1,5 +1,11 @@
 
+NEXT!!! 
+    -- set up font awesome AND pick a font??
+
+
     .columns:not(.is-desktop) ????/
+
+way to add food to previous day if forgotten
 
 <section class="tab-content" data-name="data-seo-html" data-group="data">
 // use this style to search.. seems cool!!

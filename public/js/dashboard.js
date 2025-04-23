@@ -1,95 +1,103 @@
-const showCalorieCount = async () => {
+document.addEventListener('DOMContentLoaded', () => {
+  let TDEE
+  let totalCalories
+  const foodForm = document.querySelector('.food-input')
 
-    const response = await fetch('/api/userdata')
+  const updateKcal = () => {
+    let kcalDifference = totalCalories - TDEE
+    if (kcalDifference < 0) {
+      kcalDifference *= -1 // turn -num into + for when in surplus (i.e. -2000 = 2000)
+      document.querySelector('.kcal-result').innerText = "-" + kcalDifference
+      document.querySelector('.kcal-result').style.color = 'green' // TODO change to class...
+    } else {
+      document.querySelector('.kcal-result').innerText = "+" + kcalDifference
+      document.querySelector('.kcal-result').style.color = 'red'
+    }
+    document.querySelector('.kcal').innerHTML = `${totalCalories} / ${TDEE} kcal`
+  }
+
+  const init = async () => {
+    const dataFetch = await fetch('/api/userdata')
       .then(r => r.json())
       // TODO catch...
     
-    if (!response) {
+    if (!dataFetch) {
       console.error('error with fetch')
       return
     }
-    if (response.error) {
-      // update ui with link to set up account
-      console.error(response.error)
-      // TODO change html to have only the link to go to setup page...
-
+    if (dataFetch.error) {
+      console.error(dataFetch.error)
       const detailsContainer = document.querySelector('.calorie-details')
-      detailsContainer.innerHTML = `
-      <a class="simple-link" href="/setup">Setup account</a>
-      `
+      // TODO update...
+      detailsContainer.innerHTML = `<a class="simple-link" href="/setup">Setup account</a>`
       return
     }
 
-    // TODO perhaps inset html depending on this condition
+    TDEE = dataFetch.TDEE // set TDEE from fetch
 
-    const calResponse = await fetch('/api/total-calories')
+    const calorieFetch = await fetch('/api/total-calories')
       .then(r => r.json())
 
-    let totalCalories = calResponse.totalCalories
-
-    const updateKcal = () => {
-      kcalResult = totalCalories - response.TDEE
-      if (kcalResult < 0) {
-        kcalResult *= -1 // turn -num into +
-        document.querySelector('.kcal-result').innerText = "-" + kcalResult
-        document.querySelector('.kcal-result').style.color = 'green'
-      } else {
-        document.querySelector('.kcal-result').innerText = "+" + kcalResult
-        document.querySelector('.kcal-result').style.color = 'red'
-      }
-      document.querySelector('.kcal').innerHTML = `${totalCalories} / ${response.TDEE} kcal`
-    }
-
+    totalCalories = calorieFetch.totalCalories
     updateKcal()
 
-    // const addUpFoodEaten = async (list) => {
-    //   let total = 0
-    //   for (let i = 0; i < list.length; i++) {
-    //     const {calories} = list[i]
-    //     console.log(calories)
-    //     total += calories
-    //   }
-    //   console.log('total calories from list ', total)
-    // }
-
-    const foodForm = document.querySelector('.food-input')
-    
-    foodForm.addEventListener('submit', async (e) => {
-      // TODO add food logic here...
-      // totalCalories += 250
-      // updateKcal()
-
-      e.preventDefault()
-
-      const formData = new FormData(foodForm)
-      const data = Object.fromEntries(formData.entries())
-      console.log(data)
-      const body = JSON.stringify(data)
-
-      const response = await fetch('/api/add-food', {
-        method: 'POST',
-        body,
-      })
-        .then(r => r.json())
-
-      const calorieText = document.getElementById('food_calories')
-      calorieText.innerText = response.totalCalories
-    })
-
+    createFoodEatenIcons(calorieFetch)
   }
-  showCalorieCount()
+  init()
+
+  const createFoodEatenIcons = (data) => {
+    const cardsContainer = document.querySelector('.food-eaten-icons')
+    cardsContainer.innerHTML = ''
+    data.foodList.forEach(c => {
+      cardsContainer.insertAdjacentHTML('beforeend', `
+        <li style="padding: 6px; margin: 0 8px;">
+          <p style="display: inline-block; padding: 0 10px; margin: 0; font-size: 0.9rem;">${c.name}: 
+            <span style="color: var(--white); font-size: 1.3em;"><i>${c.calories}</i></span></p>
+          <button style="padding: 0px 4px;
+          background: red;
+          border: none;
+          color: white;
+          cursor: pointer;" 
+          onclick="deleteFood(this)">x</button>
+        </li>
+      `)
+    })
+  }
 
 
-  // TODO (add food button)
-    // enter name and calories
-    // does a fetch to server
-    // checks if that food is in food table, if not add it
-    // add an entry to food eaten table
-    // get response and add to calorie count on page
+  foodForm.addEventListener('submit', async (e) => {
+    e.preventDefault()
+
+    const formData = new FormData(foodForm)
+    const data = Object.fromEntries(formData.entries())
+    const body = JSON.stringify(data)
+
+    const dataFetch = await fetch('/api/add-food', {
+      method: 'POST',
+      body,
+    })
+      .then(r => r.json())
+      // TODO catch
+
+    totalCalories = dataFetch.totalCalories
+    updateKcal()
+
+    createFoodEatenIcons(dataFetch)
+  })
+})
+
+const deleteFood = async button => {
+  console.log(button)
+  const outerDiv = button.closest('div')
+  console.log(outerDiv)
+  outerDiv.remove()
+  // delete from the db
+    // fetch....
+    // refresh total calories stuff...
+}
+
 
     // when loading dashboard...
-      // grab all the food eaten entries from today, and get total.
-      // display on screen
       // add cards based popular foods
 
     // !!!

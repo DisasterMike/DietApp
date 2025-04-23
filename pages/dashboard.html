@@ -7,27 +7,40 @@
     <link rel="stylesheet" href="css/style.css">
     <link rel="icon" href="/favicon.ico" />
     <script src="js/dashboard.js"></script>
+    <style>
+      .food-input{
+        padding: 12px;
+      }
+
+      li::marker{
+        color: var(--highlight);
+      }
+    </style>
   </head>
   <body>
     {{navbar}}
-    <h1>Total Daily Energy Expenditure</h1>
-    <div class="calorie-details">
-      <h2 class="kcal"></h2>
-      <h3 class="kcal-result">-500</h3>
-      <!-- <div>{{dashboard_contents}}</div> -->
-      <form class="food-input" action="/add-food" method="POST">
-        <input type="text" name="food_name" id="food_name" placeholder="banana">
-        <input type="number" name="food_calories" id="food_calories" placeholder="200">
-        <!-- <input type="date" name="date" id="date"> -->
-        <button class="add">Add</button>
-      </form>
+    <div class="main-container" style="padding: 36px; background-color: var(--core);">
+      <h1>Total Daily Energy Expenditure</h1>
+      <div class="calorie-details">
+        <div class="kcal-container">
+          <h2 class="kcal" style="margin: 0; color: var(--secondary);"></h2>
+          <h3 class="kcal-result" style="margin: 0;">-500</h3>
+        </div>
+        <ul class="food-eaten-icons" style="display: flex;"></ul>
+        <!-- <div>{{dashboard_contents}}</div> -->
+        <!-- TODO - make this custom a drop down??? -->
+        <form class="food-input" action="/add-food" method="POST">
+          <h3 style="margin: 8px 0;">Custom food input</h3>
+          <input type="text" name="food_name" id="food_name" placeholder="banana" style="padding: 6px; border: 1px solid #35631d; border-radius: 4px;">
+          <input type="number" name="food_calories" id="food_calories" placeholder="200" style="padding: 6px; border: 1px solid #35631d;  border-radius: 4px;">
+          <!-- <input type="date" name="date" id="date"> -->
+          <button class="add">Add</button>
+        </form>
+      </div>
     </div>
-    </form>
+    <div style="height: 300px;">
+
+    </div>
     {{footer}}
-    <!-- <script>
-      const dateInput = document.getElementById('date')
-      const today = new Date().toISOString().split('T')[0]
-      dateInput.value = today
-    </script> -->
   </body>
 </html>

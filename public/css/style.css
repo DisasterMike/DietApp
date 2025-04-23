@@ -1,14 +1,58 @@
 @import 'home/home.css';
 @import 'login/login.css';
 
+@import 'navbar.css';
+
+:root {
+
+    /* --background: #FFF9F0; */
+    --white: #FFFFFF;
+    --bk-dim: #ECEDEE;
+    
+    --core: #79bc58;
+    --secondary: #04550d;
+    --highlight: #E03C3C;
+    /* --core: #6eca75; */
+    --button: #FFD93B;
+
+
+
+
+    /* --core-text-color: #6DBE45; */
+}
+
+body {
+    margin: 0;
+    background-color: var(--white);
+}
+
+footer {
+    background-color: var(--secondary);
+}
+
+h1 {
+    color: var(--white);
+}
+
+button {
+    background: var(--button);
+    border: none;
+    padding: 6px 12px;
+    border-radius: 6px;
+}
 
 .simple-link{
     text-decoration: none;
-    color: #3c93ff;
+    /* color: #3c93ff; */
+    /* color: var(--core); */
+    color: var(--core);
     transition: color 0.5s;
+    font-size: 1.2rem;
+
 }
 .simple-link:hover{
-    color: #ff3c46;
+    /* color: #ff3c46; */
+    color: var(--button);
 }
 
 .desc-text{

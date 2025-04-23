@@ -12,18 +12,17 @@ const host = '127.0.0.1'
 const port = 3000
 
 const checkSessionTokens = async () => {
-    await new Promise(r => setTimeout(r, 60_000))
     const sessionExpireQuery = `
         DELETE FROM diet.sessions WHERE expires_at < NOW();
     `
     await mysql.query(sessionExpireQuery, [])
+    
+    await new Promise(r => setTimeout(r, 60_000))
     checkSessionTokens()
 }
 checkSessionTokens()
 
 const main = async (req, res, parts) => {
-
-    const food = await app.dashboardController.getFoodListForToday(req)
 
     // parse data form request if there is any
     if (parts.length) req.$fields = JSON.parse(Buffer.concat(parts))
@@ -81,6 +80,8 @@ const main = async (req, res, parts) => {
         // show 404 page
         app.serveFile('pages/404.html', 'text/html', res)
     }
+
+    // Handle API-specific requests with '/api/' prefix
 }
 
 const server = http.createServer( async (req, res) => {
@@ -107,6 +108,35 @@ process
 
 
 
+
+
+
+    // cool stuff from david's code
+    // res.$html = (data, code = 200) => res.writeHead(code, {'Content-Type': 'text/html'}).end(data)
+    // res.$text = (data, code = 200) => res.writeHead(code, {'Content-Type': 'text/plain'}).end(data)
+    // res.$json = (obj, code = 200) => res.writeHead(code, {'Content-Type': 'application/json; charset=UTF-8'}).end(JSON.stringify(obj))
+    // res.$file = (blob, {code = 200, download = false, headers = {}, filename = '', compression = 'none', last_modified}) => {
+
+    //     if (download) {
+    //         headers['Content-Disposition'] = `attachment; filename*=UTF-8''${encodeURIComponent(filename)}`
+    //     }
+    //     // console.log('http server index.js response res.$file compression', compression)
+    //     if (compression==='brotli') {
+    //         headers['Content-Encoding'] = 'br'
+    //     }
+
+    //     if (!headers['Content-Type']) {
+    //         // LOG({filename})
+    //         headers['Content-Type'] = mime.getType(extname(filename))
+    //     }
+
+    //     if (last_modified) {
+    //         headers['Last-Modified'] = last_modified
+    //     }
+
+    //     return res.writeHead(code, headers).end(blob)
+    // }
+    // res.$error = (code, obj) => isNaN(code) ? res.writeHead(code).end() : res.$json(obj, code)
 
 
 

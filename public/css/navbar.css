@@ -1,0 +1,35 @@
+#nav-header{
+    /* background-color: var(--secondary-bk-color); */
+    background-color: var(--white);
+    display: flex;
+    box-shadow: 2px 2px 10px #dfdfdf;
+}
+
+nav{
+    margin-left: auto;
+    margin-right: 24px;
+}
+
+#nav-header ul{
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    height: 100%;
+    margin: 0;
+    list-style: none;
+}
+
+.nav-logo-link{
+    text-decoration: none;
+    /* color: #7c4f1d; */
+    color: var(--core);
+    padding: 0 16px;
+}
+.nav-logo-link p {
+    font-size: 1.6rem;
+    margin: 0;
+}
+
+.logo-name{
+    display: inline;
+}

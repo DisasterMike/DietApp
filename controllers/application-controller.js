@@ -56,7 +56,10 @@ const readHTML = async (filePath) => {
 const serveFullPage = async (filePath) => {
     let html = await fs.promises.readFile(filePath, 'utf8')
     const navbar = await readHTML('pages/components/navbar.html')
-    const footer = await readHTML('pages/components/footer.html')
+    let footer = await readHTML('pages/components/footer.html')
+    const copyrightText = `One2ManyHats ${dayjs().format('YYYY')}`
+    footer = footer.replace('{{copyright}}', copyrightText)
+
     html = html.replace('{{navbar}}', navbar)
     html = html.replace('{{footer}}', footer)
 

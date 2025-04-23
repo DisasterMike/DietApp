@@ -15,7 +15,10 @@ const signupPage = async (req, res) => {
             return res.end()
         }
 
-        app.serveFile('pages/sign-up.html', 'text/html', res)
+        // app.serveFile('pages/sign-up.html', 'text/html', res)
+        const html = await app.serveFullPage('pages/sign-up.html')
+        res.writeHead(200, { 'Content-Type': 'text/html' })
+        return res.end(html)
     }
     if (req.method==='POST') {
         createAccount(req, res)
