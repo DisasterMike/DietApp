@@ -15,7 +15,10 @@ const setupPage = async (req, res) => {
             return res.end()
         }
 
-        app.serveFile('pages/setup.html', 'text/html', res)
+        // app.serveFile('pages/setup.html', 'text/html', res)
+        const html = await app.serveFullPage(req, res, 'pages/setup.html')
+        res.writeHead(200, { 'Content-Type': 'text/html' })
+        return res.end(html)
     }
     if (req.method==='POST') {
 

@@ -41,34 +41,38 @@ button {
     border-radius: 6px;
 }
 
-.simple-link{
+.simple-link {
     text-decoration: none;
-    /* color: #3c93ff; */
-    /* color: var(--core); */
     color: var(--core);
     transition: color 0.5s;
     font-size: 1.2rem;
 
 }
+.simple-link.light {
+    color: var(--white);
+}
 .simple-link:hover{
-    /* color: #ff3c46; */
-    color: var(--button);
+    color: var(--highlight);
 }
 
-.desc-text{
+.desc-text {
     margin: 0;
     font-size: 0.9rem;
 }
 
-.text-disable{
+.text-disable {
     display: none;
 }
 
-.text-error{
+.text-error {
     color: red;
 }
 
+.curr-page-link {
+    color: var(--highlight);
+}
 
-.d-none{
+
+.d-none {
     display: none;
 }

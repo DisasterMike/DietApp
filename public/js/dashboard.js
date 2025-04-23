@@ -1,4 +1,8 @@
 document.addEventListener('DOMContentLoaded', () => {
+
+  const homeLink = document.querySelector('.home-link')
+  homeLink.classList.add('curr-page-link')
+
   let TDEE
   let totalCalories
   const foodForm = document.querySelector('.food-input')
@@ -29,7 +33,7 @@ document.addEventListener('DOMContentLoaded', () => {
       console.error(dataFetch.error)
       const detailsContainer = document.querySelector('.calorie-details')
       // TODO update...
-      detailsContainer.innerHTML = `<a class="simple-link" href="/setup">Setup account</a>`
+      detailsContainer.innerHTML = `<a class="simple-link light" href="/setup">Setup account</a>`
       return
     }
 

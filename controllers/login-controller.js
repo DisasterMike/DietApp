@@ -18,7 +18,10 @@ const loginPage = async (req, res) => {
             return res.end()
         }
 
-        app.serveFile('pages/login.html', 'text/html', res)
+        // app.serveFile('pages/login.html', 'text/html', res)
+        const html = await app.serveFullPage(req, res, 'pages/login.html')
+        res.writeHead(200, { 'Content-Type': 'text/html' })
+        return res.end(html)
     }
     if (req.method==='POST') {
         handlelogin(req, res)
@@ -29,8 +32,9 @@ const logout = async (req, res) => {
     // remove session token
     await cookiesUtils.removeSessionToken(req, res)
 
-    // redirect to home page
-    app.serveFile('pages/index.html', 'text/html', res)
+    // redirect to home page - to login page???
+    res.writeHead(302, { Location: '/' })
+    return res.end()
 }
 
 const handlelogin = async (req, res) => {

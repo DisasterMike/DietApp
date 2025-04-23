@@ -2,8 +2,21 @@
 NEXT!!! 
     -- set up font awesome AND pick a font??
 
+    ✅ 1. Install Font Awesome -terminal
+    npm install @fortawesome/fontawesome-free
+    ✅ 2. In your HTML file
+    Add this inside the <head> tag:
+    <link rel="stylesheet" href="/fa/css/all.min.css">
+    ✅ 3. Copy Font Awesome assets to your public folder - terminal
+    mkdir -p public/fa
+    cp -r node_modules/@fortawesome/fontawesome-free/* public/fa/
+
 
     .columns:not(.is-desktop) ????/
+
+- way to add custom food
+    // have a table with [name, ingredient, ingr_calories]
+    // store each ingredient they add to a db and make a join table to combine custom food with ingredient???
 
 way to add food to previous day if forgotten
 

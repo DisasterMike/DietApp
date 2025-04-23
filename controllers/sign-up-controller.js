@@ -16,7 +16,7 @@ const signupPage = async (req, res) => {
         }
 
         // app.serveFile('pages/sign-up.html', 'text/html', res)
-        const html = await app.serveFullPage('pages/sign-up.html')
+        const html = await app.serveFullPage(req, res, 'pages/sign-up.html')
         res.writeHead(200, { 'Content-Type': 'text/html' })
         return res.end(html)
     }

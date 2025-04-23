@@ -10,7 +10,10 @@ const homePage = async (req, res) => {
             // TODO - should this logic be used???
         }
 
-        app.serveFile('pages/index.html', 'text/html', res)
+        // app.serveFile('pages/index.html', 'text/html', res)
+        const html = await app.serveFullPage(req, res, 'pages/index.html')
+        res.writeHead(200, { 'Content-Type': 'text/html' })
+        return res.end(html)
     }
 }
 

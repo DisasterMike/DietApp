@@ -9,22 +9,24 @@
     <script src="js/login.js" defer></script>
 </head>
 <body>
-    <a class="simple-link" href="/">home</a>
-    <!-- dont need signup? -->
-    <a class="simple-link" href="/sign-up">sign up</a>
-    <h1>login</h1>
-    <form id="login-form" action="/login" method="POST">
-        <input class="l-input" type="text" name="user" id="user" placeholder="username / email">
-        <input class="l-input" type="password" name="password" id="password" autocomplete="off" placeholder="password">
-        <p style="cursor: pointer; display: inline;" id="eye"><@></p>
-        <input type="submit" value="submit">
-    </form>
-    <p id="form-error-message" style="display: none; color: red;">Error text</p>
-    <p>Forgot your <a class="simple-link" href="#">username</a>, <a class="simple-link" href="#">email</a> or <a class="simple-link" href="#">passsword</a>?</p>
-    <p>Don't have an account? <a class="simple-link" href="/sign-up">Sign up</a> here!</p>
-
-
-
+    <div class="wrapper" style="min-height: 100vh; display: flex; flex-direction: column;">
+        {{navbar}}
+        <main style="flex-grow: 1;">
+            <div class="container" style="background-color: var(--core); padding: 24px; margin: 0 50px; border-radius: 0 0 8px 8px;">
+                <h1 style="margin: 0;">login</h1>
+                <form id="login-form" action="/login" method="POST">
+                    <input class="l-input" type="text" name="user" id="user" placeholder="username / email">
+                    <input class="l-input" type="password" name="password" id="password" autocomplete="off" placeholder="password">
+                    <p style="cursor: pointer; display: inline;" id="eye"><@></p>
+                    <input type="submit" value="submit">
+                </form>
+                <p id="form-error-message" style="display: none; color: red;">Error text</p>
+                <p>Forgot your <a class="simple-link light" href="#">username</a>, <a class="simple-link light" href="#">email</a> or <a class="simple-link light" href="#">passsword</a>?</p>
+                <p>Don't have an account? <a class="simple-link light" href="/sign-up">Sign up</a> here!</p>
+            </div>
+        </main>
+        {{footer}}
+    </div>
     <!-- <i class="fa-solid fa-eye"></i> -->
     <!-- <i class="fa-solid fa-eye-slash"></i> -->
 </body>

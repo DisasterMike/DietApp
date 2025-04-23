@@ -6,6 +6,8 @@ import mysql from "../mysql/index.js"
 
 import dayjs from "dayjs"
 
+import { capitalizeString } from "../utils/utils.js"
+
 const dashboardPage = async (req, res) => {
     if (req.method==='GET') {
         const sessionToken = await cookiesUtils.getSessionToken(req)
@@ -14,7 +16,7 @@ const dashboardPage = async (req, res) => {
             return res.end()
         }
 
-        const html = await app.serveFullPage('pages/dashboard.html')
+        const html = await app.serveFullPage(req, res, 'pages/dashboard.html')
 
         // check...
         
@@ -55,7 +57,9 @@ const getCurrentEatenFood = async (req, res) => {
 
 const addFoodEaten = async (req, res) => {
 
-    const {food_name: name, food_calories: calories} = req.$fields
+    let {food_name: name, food_calories: calories} = req.$fields
+
+    name = capitalizeString(name)
 
     let food_id
     const [foodItem] = await mysql.query(`
@@ -77,7 +81,7 @@ const addFoodEaten = async (req, res) => {
     await mysql.insertInto('diet.food_eaten', [foodEatenEntry])
 
     const foodList = await getFoodListForToday(req, res)
-    LOG(foodList)
+    // LOG(foodList)
 
     let totalCalories = 0
     for (let i = 0; i < foodList.length; i++) {

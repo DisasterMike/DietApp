@@ -8,29 +8,37 @@
     <link rel="icon" href="/favicon.ico" />
 </head>
 <body>
-    {{navbar}}
-    <div class="container" style="background-color: var(--core); padding: 24px;">
-        <div class="form-container" style="width: 400px; margin: 0 auto; padding: 24px; background-color: var(--bk-dim); border-radius: 12px;">
-            <form action="/create-account" method="POST" style="display: flex; flex-direction: column;">
-                <label for="username">Pick a Username</label>
-                <input type="text" name="username" id="username" autocomplete="off" autofocus>
-                <p class="desc-text text-disable">Must contain 4 or more letters.</p>
-                <br>
-                <label for="email">Email</label>
-                <input type="text" name="email" id="email" autocomplete="off">
-                <p class="desc-text text-disable">Email error...</p>
-                <br>
-                <label for="password">Password</label>
-                <input type="password" name="password" id="password" autocomplete="off">
-                <p class="desc-text text-disable">Password error...</p>
-                <br>
-                <input type="submit" name="" id="" value="Create an Account">
-            </form>
-            <p>Already have an account? <a class="simple-link" href="/login">Login</a> here!</p>
-        </div>
+    <div class="wrapper" style="min-height: 100vh; display: flex; flex-direction: column;">
+        {{navbar}}
+        <main style="flex-grow: 1;">
+            <div class="container" style="background-color: var(--core); padding: 24px; margin: 0 50px; border-radius: 0 0 8px 8px;">
+                <div class="form-container" style="width: 400px; margin: 0 auto; padding: 24px; background-color: var(--bk-dim); border-radius: 12px;">
+                    <form action="/create-account" method="POST" style="display: flex; flex-direction: column;">
+                        <label for="username">Pick a Username</label>
+                        <input type="text" name="username" id="username" autocomplete="off" autofocus>
+                        <p class="desc-text text-disable">Must contain 4 or more letters.</p>
+                        <br>
+                        <label for="email">Email</label>
+                        <input type="text" name="email" id="email" autocomplete="off">
+                        <p class="desc-text text-disable">Email error...</p>
+                        <br>
+                        <label for="password">Password</label>
+                        <input type="password" name="password" id="password" autocomplete="off">
+                        <p class="desc-text text-disable">Password error...</p>
+                        <br>
+                        <input type="submit" name="" id="" value="Create an Account">
+                    </form>
+                    <p>Already have an account? <a class="simple-link" href="/login">Login</a> here!</p>
+                </div>
+            </div>
+        </main>
+        {{footer}}
     </div>
-    {{footer}}
     <script>
+
+        const signupLink = document.querySelector('.signup-link')
+        signupLink.classList.add('curr-page-link')
+
         // const charCheck = /^[a-zA-Z\s.,\']$/
         const minLetterCheck = /^\w{4,}$/
         const firstCharCheck = /^[A-Za-z].\w*$/

@@ -2,6 +2,9 @@ const inputs = document.querySelectorAll('#login-form .l-input')
 const form = document.getElementById('login-form')
 const formError = document.getElementById('form-error-message')
 
+const loginLink = document.querySelector('.login-link')
+loginLink.classList.add('curr-page-link')
+
 // for removing erors when typing...
 inputs.forEach(i => {
     i.addEventListener('input', () => {

@@ -53,12 +53,20 @@ const readHTML = async (filePath) => {
     return data
 }
 
-const serveFullPage = async (filePath) => {
+const serveFullPage = async (req, res, filePath) => {
     let html = await fs.promises.readFile(filePath, 'utf8')
-    const navbar = await readHTML('pages/components/navbar.html')
+    const sessionToken = await cookiesUtils.getSessionToken(req)
+    let navbar
+    if (sessionToken) {
+        navbar = await readHTML('pages/components/navbar.html')
+    } else {
+        navbar = await readHTML('pages/components/home-navbar.html')
+    }
     let footer = await readHTML('pages/components/footer.html')
     const copyrightText = `One2ManyHats ${dayjs().format('YYYY')}`
     footer = footer.replace('{{copyright}}', copyrightText)
+
+    // load which navbar dependng on logged in or not??
 
     html = html.replace('{{navbar}}', navbar)
     html = html.replace('{{footer}}', footer)

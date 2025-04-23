@@ -8,6 +8,8 @@ import cookiesUtils from './utils/cookies-utils.js'
 
 import mysql from './mysql/index.js'
 
+// import {capitalizeString} from './utils/utils.js'
+
 const host = '127.0.0.1'
 const port = 3000
 
@@ -16,7 +18,7 @@ const checkSessionTokens = async () => {
         DELETE FROM diet.sessions WHERE expires_at < NOW();
     `
     await mysql.query(sessionExpireQuery, [])
-    
+
     await new Promise(r => setTimeout(r, 60_000))
     checkSessionTokens()
 }

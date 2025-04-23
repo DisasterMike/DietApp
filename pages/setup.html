@@ -8,30 +8,31 @@
     <link rel="icon" href="/favicon.ico" />
 </head>
 <body>
-
-    <!-- TODO - set up so this changes to dashboard after logging in... -->
-    <a class="simple-link" href="/dashboard">home</a>
-    <script>
-        // TODO - change the tag to logout if already signed in...
-        document.currentScript.outerHTML = `<a class="simple-link" href="/login">login</a>`
-    </script>
-
-    <!-- <h1>Set up</h1> -->
-
-    <div class="outer-container" style="width: 400px; margin: 0 auto;">
-        <div class="setup-form">
-            <form action="/setup" method="POST">
-                <div class="form-inputs">
+    <div class="wrapper" style="min-height: 100vh; display: flex; flex-direction: column;">
+        {{navbar}}
+        <main style="flex-grow: 1;">
+            <div class="container" style="background-color: var(--core); padding: 24px; margin: 0 50px; border-radius: 0 0 8px 8px;">
+                <div class="outer-container" style="width: 400px; margin: 0 auto;">
+                    <div class="setup-form">
+                        <form action="/setup" method="POST">
+                            <div class="form-inputs">
+                            </div>
+                            <br>
+                            <input class="d-none" type="submit" name="setup-submit" id="setup-next-hidden" value="Next">
+                            <input class="s-form-start" type="submit" name="setup-start" id="setup-start" value="Start">
+                            <input class="s-form-back d-none" type="submit" name="setup-submit" id="setup-back-btn" value="Back">
+                            <input class="s-form-next d-none" type="submit" name="setup-submit" id="setup-next-btn" value="Next">
+                            <input class="s-form-submit d-none" type="submit" name="setup-submit" id="setup-submit-btn" value="Submit">
+                        </form>
+                    </div>
                 </div>
-                <br>
-                <input class="d-none" type="submit" name="setup-submit" id="setup-next-hidden" value="Next">
-                <input class="s-form-start" type="submit" name="setup-start" id="setup-start" value="Start">
-                <input class="s-form-back d-none" type="submit" name="setup-submit" id="setup-back-btn" value="Back">
-                <input class="s-form-next d-none" type="submit" name="setup-submit" id="setup-next-btn" value="Next">
-                <input class="s-form-submit d-none" type="submit" name="setup-submit" id="setup-submit-btn" value="Submit">
-            </form>
-        </div>
+            </div>
+        </main>
+        {{footer}}
     </div>
+    {{navbar}}
+    
+    {{footer}}
     <script>
 
         // TODO - retrieve saved data from db and fill in the object below

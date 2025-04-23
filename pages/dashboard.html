@@ -18,29 +18,30 @@
     </style>
   </head>
   <body>
-    {{navbar}}
-    <div class="main-container" style="padding: 36px; background-color: var(--core);">
-      <h1>Total Daily Energy Expenditure</h1>
-      <div class="calorie-details">
-        <div class="kcal-container">
-          <h2 class="kcal" style="margin: 0; color: var(--secondary);"></h2>
-          <h3 class="kcal-result" style="margin: 0;">-500</h3>
-        </div>
-        <ul class="food-eaten-icons" style="display: flex;"></ul>
-        <!-- <div>{{dashboard_contents}}</div> -->
-        <!-- TODO - make this custom a drop down??? -->
-        <form class="food-input" action="/add-food" method="POST">
-          <h3 style="margin: 8px 0;">Custom food input</h3>
-          <input type="text" name="food_name" id="food_name" placeholder="banana" style="padding: 6px; border: 1px solid #35631d; border-radius: 4px;">
-          <input type="number" name="food_calories" id="food_calories" placeholder="200" style="padding: 6px; border: 1px solid #35631d;  border-radius: 4px;">
-          <!-- <input type="date" name="date" id="date"> -->
-          <button class="add">Add</button>
-        </form>
-      </div>
-    </div>
-    <div style="height: 300px;">
-
-    </div>
-    {{footer}}
+    <div class="wrapper" style="min-height: 100vh; display: flex; flex-direction: column;">
+      {{navbar}}
+      <main style="flex-grow: 1;">
+          <div class="container" style="background-color: var(--core); padding: 24px; margin: 0 50px; border-radius: 0 0 8px 8px;">
+            <h1>Total Daily Energy Expenditure</h1>
+            <div class="calorie-details">
+              <div class="kcal-container">
+                <h2 class="kcal" style="margin: 0; color: var(--secondary);"></h2>
+                <h3 class="kcal-result" style="margin: 0;">-500</h3>
+              </div>
+              <ul class="food-eaten-icons" style="column-count: 3;"></ul>
+              <!-- <div>{{dashboard_contents}}</div> -->
+              <!-- TODO - make this custom a drop down??? -->
+              <form class="food-input" action="/add-food" method="POST">
+                <h3 style="margin: 8px 0;">Custom food input</h3>
+                <input type="text" name="food_name" id="food_name" placeholder="banana" style="padding: 6px; border: 1px solid #35631d; border-radius: 4px;">
+                <input type="number" name="food_calories" id="food_calories" placeholder="200" style="padding: 6px; border: 1px solid #35631d;  border-radius: 4px;">
+                <!-- <input type="date" name="date" id="date"> -->
+                <button class="add">Add</button>
+              </form>
+            </div>
+          </div>
+      </main>
+      {{footer}}
+  </div>
   </body>
 </html>

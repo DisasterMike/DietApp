@@ -54,6 +54,18 @@ const convertHeightIntoCm = (height, measurement) => {
     }
 }
 
+const capIgnore = ['a', 'an', 'the', 'and', 'but', 'or', 'nor', 'for', 'so', 'yet', 'at', 
+    'by', 'for', 'in', 'of', 'off', 'on', 'out', 'to', 'up', 'with']
+const capitalizeString = (string, skip = false) => {
+    return string.split(' ').map((word, index) => {
+        if (skip && index > 0 && capIgnore.includes(word)) {
+            return word
+        } else {
+            return word.charAt(0).toUpperCase() + word.slice(1)
+        }
+    }).join(' ')
+}
+
 
 const asyncPool = async (size, items, callback) => {
 	const pool = []
@@ -83,4 +95,4 @@ const asyncPool = async (size, items, callback) => {
 // }
 // runStressTest()
 
-export { calculateTDEE, getActivityFigure, convertWeightIntoKg, convertHeightIntoCm }
+export { calculateTDEE, getActivityFigure, convertWeightIntoKg, convertHeightIntoCm, capitalizeString }
