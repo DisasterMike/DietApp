@@ -7,23 +7,28 @@
 
     /* --background: #FFF9F0; */
     --white: #FFFFFF;
+    --cream-white: #fafae7;
     --bk-dim: #ECEDEE;
     
-    --core: #79bc58;
+    /* --core: #79bc58; */
+    --core: #70ab55;
     --secondary: #04550d;
-    --highlight: #E03C3C;
-    /* --core: #6eca75; */
-    --button: #FFD93B;
+    /* --secondary: #aacc8f; */
+    /* --highlight: #E03C3C; */
+    --highlight: #d15a4c;
+    /* --button: #FFD93B; */
+    --button: #ffe76e;
 
 
-
+    /* #ee9f9c */
 
     /* --core-text-color: #6DBE45; */
 }
 
 body {
     margin: 0;
-    background-color: var(--white);
+    /* background-color: var(--white); */
+    background-color: var(--cream-white);
 }
 
 footer {

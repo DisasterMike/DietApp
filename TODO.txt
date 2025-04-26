@@ -1,7 +1,22 @@
+ERR 2025-04-25 10:10:08 controllers/dashboard-controller.js:96:13 addFoodEaten 
+--->  TypeError: Cannot read properties of undefined (reading 'insertId')
+    at Object.addFoodEaten (file:///Users/michaelstump/Projects/DietApp/controllers/dashboard-controller.js:94:30)
+    at process.processTicksAndRejections (node:internal/process/task_queues:105:5)
+ERR 2025-04-25 10:10:08 mysql/index.js:56:13 insertInto 
+--->  TypeError: Bind parameters must not contain undefined. To pass SQL NULL specify JS null
+    at /Users/michaelstump/Projects/DietApp/node_modules/mysql2/lib/base/connection.js:660:17
+    at Array.forEach (<anonymous>)
+    at PoolConnection.execute (/Users/michaelstump/Projects/DietApp/node_modules/mysql2/lib/base/connection.js:652:22)
+    at /Users/michaelstump/Projects/DietApp/node_modules/mysql2/lib/base/pool.js:172:14
+    at /Users/michaelstump/Projects/DietApp/node_modules/mysql2/lib/base/pool.js:43:37
+    at process.processTicksAndRejections (node:internal/process/task_queues:85:11)
+
+
+TODO - ask if you can get 19th off then you and tio will have a nice long weekend for dokapon 
 
 NEXT!!! 
     -- set up font awesome AND pick a font??
-
+    THIS INSTALLTION IS THE SIMPLE WAY.. MAYBE DO THE MORE COMPLEX VERSION??
     ✅ 1. Install Font Awesome -terminal
     npm install @fortawesome/fontawesome-free
     ✅ 2. In your HTML file
@@ -11,8 +26,10 @@ NEXT!!!
     mkdir -p public/fa
     cp -r node_modules/@fortawesome/fontawesome-free/* public/fa/
 
+PROBLEM!! - users could flood the db with custom food....
 
-    .columns:not(.is-desktop) ????/
+- add image_url to food table
+- use a default image for ones that don't exist
 
 - way to add custom food
     // have a table with [name, ingredient, ingr_calories]

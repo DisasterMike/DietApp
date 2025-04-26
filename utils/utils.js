@@ -66,7 +66,6 @@ const capitalizeString = (string, skip = false) => {
     }).join(' ')
 }
 
-
 const asyncPool = async (size, items, callback) => {
 	const pool = []
 	for (let i = 0; items.length > i; i++) {

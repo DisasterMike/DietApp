@@ -52,9 +52,9 @@ document.addEventListener('DOMContentLoaded', () => {
   const createFoodEatenIcons = (data) => {
     const cardsContainer = document.querySelector('.food-eaten-icons')
     cardsContainer.innerHTML = ''
-    data.foodList.forEach(c => {
+    data.foodList.forEach(c => { // if change MAKE SURE TO KEEP ID DATASET FOR DELETING...
       cardsContainer.insertAdjacentHTML('beforeend', `
-        <li style="padding: 6px; margin: 0 8px;">
+        <li style="padding: 6px; margin: 0 8px;" data-id=${c.id}>
           <p style="display: inline-block; padding: 0 10px; margin: 0; font-size: 0.9rem;">${c.name}: 
             <span style="color: var(--white); font-size: 1.3em;"><i>${c.calories}</i></span></p>
           <button style="padding: 0px 4px;
@@ -71,6 +71,16 @@ document.addEventListener('DOMContentLoaded', () => {
 
   foodForm.addEventListener('submit', async (e) => {
     e.preventDefault()
+
+    // const inputs = e.target.querySelectorAll('input')
+    // for (let i = 0; i < inputs.length; i++) {
+    //   const input = inputs[i]
+    //   if (input.value.trim() === '') {
+    //     alert(`${input.name} cannot be empty`)
+    //     // add some styling to say it's empty????
+    //     return
+    //   }
+    // }
 
     const formData = new FormData(foodForm)
     const data = Object.fromEntries(formData.entries())
@@ -91,13 +101,28 @@ document.addEventListener('DOMContentLoaded', () => {
 })
 
 const deleteFood = async button => {
-  console.log(button)
-  const outerDiv = button.closest('div')
-  console.log(outerDiv)
-  outerDiv.remove()
   // delete from the db
     // fetch....
     // refresh total calories stuff...
+  
+  const parent = button.closest('li')
+  const id = parent.dataset.id
+  const body = JSON.stringify({id})
+
+  // need to collect id from dataset and send that across..
+  const response = await fetch('/api/delete-eaten', {
+    method: 'POST',
+    body,
+  })
+    .then(r => r.json())
+
+  console.log(response)
+
+  if (!response.error) {
+    parent.remove()
+    totalCalories = response.totalCalories
+    updateKcal()
+  }
 }
 
 

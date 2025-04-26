@@ -55,7 +55,7 @@
         const formData = new FormData(newDataForm)
         const data = Object.fromEntries(formData)
 
-        const response = await fetch('/newdata', {
+        const response = await fetch('/api/newdata', {
           method: 'POST',
           body: JSON.stringify(data),
         })//.catch(e => ({error: 'no network?'}))

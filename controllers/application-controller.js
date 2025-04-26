@@ -53,6 +53,14 @@ const readHTML = async (filePath) => {
     return data
 }
 
+const replaceHTML = async (obj, htmlPath) => {
+    let html = await readHTML(htmlPath)   
+    Object.keys(obj).forEach(k => {
+        html = html.replace(`{{${k}}}`, obj[k])
+    })
+    return html
+}
+
 const serveFullPage = async (req, res, filePath) => {
     let html = await fs.promises.readFile(filePath, 'utf8')
     const sessionToken = await cookiesUtils.getSessionToken(req)
@@ -122,6 +130,6 @@ const getRawTDEE = async (req, res) => {
     res.end(JSON.stringify(TDEE))
 }
 
-export default { staticFiles, serveFile, fetchUserData, getRawTDEE, readHTML, serveFullPage,
+export default { staticFiles, serveFile, fetchUserData, getRawTDEE, readHTML, replaceHTML, serveFullPage,
     homeController, dashboardController, loginController, signupController, usersController,
 }

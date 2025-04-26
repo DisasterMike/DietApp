@@ -15,10 +15,17 @@ const dashboardPage = async (req, res) => {
             res.writeHead(302, { Location: '/login' })
             return res.end()
         }
+        let html = await app.serveFullPage(req, res, 'pages/dashboard.html')
 
-        const html = await app.serveFullPage(req, res, 'pages/dashboard.html')
+        const topEatenFoods = await getMostCommonEatenFood(req, res)
+        let cards = ''
+        for (let i = 0; i < topEatenFoods.length; i++) {
+            const food = topEatenFoods[i]
+            const replacedHtml = await app.replaceHTML(food, 'pages/components/food-card.html')
+            cards += replacedHtml
+        }
 
-        // check...
+        html = html.replace('{{topEatenFoods}}', cards)
         
         res.writeHead(200, { 'Content-Type': 'text/html' })
         return res.end(html)
@@ -28,13 +35,29 @@ const dashboardPage = async (req, res) => {
 const getFoodListForToday = async (req, res) => {
     const user_id = await cookiesUtils.getCurrentUserId(req)
     const sqlQuery = `
-        SELECT food.name, food.calories, food_eaten.eaten_at FROM diet.food_eaten
+        SELECT * FROM diet.food_eaten
         INNER JOIN diet.food ON
         food_eaten.food_id = food.food_id
         WHERE user_id = ? AND eaten_at = ?;
     `
     const foodData = await mysql.query(sqlQuery, [user_id, dayjs().format('YYYY-MM-DD 00:00:00')])
     return foodData
+}
+
+const foodListAndCalories = async (req, res) => {
+    const foodList = await getFoodListForToday(req, res)
+
+    let totalCalories = 0
+    for (let i = 0; i < foodList.length; i++) {
+        const {calories} = foodList[i]
+        totalCalories += calories
+    }
+
+    const data = {
+        totalCalories,
+        foodList,
+    }
+    return data
 }
 
 const getCurrentEatenFood = async (req, res) => {
@@ -79,6 +102,7 @@ const addFoodEaten = async (req, res) => {
     const user_id = await cookiesUtils.getCurrentUserId(req)
     const foodEatenEntry = {user_id, food_id, eaten_at: dayjs().format('YYYY-MM-DD')}
     await mysql.insertInto('diet.food_eaten', [foodEatenEntry])
+    // TODO do a try catch and return if error???
 
     const foodList = await getFoodListForToday(req, res)
     // LOG(foodList)
@@ -99,12 +123,91 @@ const addFoodEaten = async (req, res) => {
     res.end(JSON.stringify(data))
 }
 
-export default { dashboardPage, addFoodEaten, getFoodListForToday, getCurrentEatenFood }
+const deleteFromFoodEaten = async (req, res) => {
+    const {id} = req.$fields
+    res.writeHead(201, { 'Content-Type': 'application/json' })
+    try {
+        await mysql.query(`DELETE FROM diet.food_eaten WHERE id = ?`, [id])
+    } catch (e) {
+        ERR(e)
+        res.end(JSON.stringify({error: e}))
+    }
+    const {totalCalories} = await foodListAndCalories(req, res)
+    res.end(JSON.stringify({totalCalories})) // return total calories instead...
+}
+
+// Maybe don't use this?!?!?!?
+const getRecentEatenFood = async (req, res) => {
+    // get all foods for that user
+        // grab the last x amount - 5??
+            // return array
+
+    // return x amount of this array
+}
+
+const getMostCommonEatenFood = async (req, res) => {
+    const user_id = await cookiesUtils.getCurrentUserId(req)
+
+    const sqlQuery = `
+        SELECT name, calories, COUNT(*) AS times_eaten, MAX(diet.food_eaten.eaten_at) AS last_eaten_at
+        FROM diet.food_eaten
+        INNER JOIN diet.food ON diet.food_eaten.food_id = diet.food.food_id
+        WHERE user_id = ?
+        GROUP BY diet.food.food_id, diet.food.name, diet.food.calories
+        ORDER BY times_eaten DESC
+        LIMIT 5;
+    `
+    const orderedEatenList = await mysql.query(sqlQuery, [user_id])
+    // LOG(orderedEatenList)
+
+    orderedEatenList.forEach(item => {
+        const lastEaten = item.last_eaten_at
+        // const lastEaten = dayjs('2025-04-10').format('YYYY-MM-DD') // for testing
+
+        let lastEatenText
+        const diff = dayjs().diff(dayjs(lastEaten), 'day')
+        if (diff >= 30) {
+            lastEatenText = 'a month or so ago'
+        } else if (diff >= 7) {
+            const weeks = Math.round(diff / 7)
+            const plural = weeks === 1 ? '' : 's'
+            lastEatenText = `${weeks} week${plural} ago`
+        } else {
+            if (diff===0) {
+                lastEatenText = 'today'
+            } else if (diff===1) {
+                lastEatenText = 'yesterday'
+            } else {
+                lastEatenText = `${diff} days ago`
+            }
+        }
+        LOG(lastEatenText)
+
+        // return item.last_eaten_at = dayjs(lastEaten).format('YYYY-MM-DD')
+        return item.last_eaten_at = lastEatenText
+    })
+    return orderedEatenList
+    // res.writeHead(200, { 'Content-Type': 'application/json' })
+    // res.end(JSON.stringify(topFiveFoods))
+}
+
+// TODO - use this for foods you click to favourite??????
+const getFavouriteFood = async (req, res) => {
+}
+
+export default { dashboardPage, addFoodEaten, getFoodListForToday, getCurrentEatenFood, deleteFromFoodEaten,
+    getMostCommonEatenFood
+}
 
 
-
-
-
+// const sqlQuery = `
+//         SELECT name, calories, COUNT(*) AS times_eaten
+//         FROM diet.food_eaten
+//         INNER JOIN diet.food ON diet.food_eaten.food_id = diet.food.food_id
+//         WHERE user_id = ?
+//         GROUP BY name
+//         ORDER BY times_eaten DESC;
+//     `
 
 
 

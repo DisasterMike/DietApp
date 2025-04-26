@@ -1,17 +1,23 @@
 import http from 'node:http'
 import path from 'path'
 import { URL } from 'url'
+import os from 'os'
 // import { dirname } from 'node:path'
+
 import './global.js'
 import app from './controllers/application-controller.js'
 import cookiesUtils from './utils/cookies-utils.js'
-
 import mysql from './mysql/index.js'
 
-// import {capitalizeString} from './utils/utils.js'
-
-const host = '127.0.0.1'
+// const host = '127.0.0.1'
+const host = '0.0.0.0'
 const port = 3000
+
+const getLocalIPAddress = () => {
+    return Object.values(os.networkInterfaces())
+        .flat()
+        .find(i => i.family==='IPv4' && !i.internal)?.address || 'localhost'
+}
 
 const checkSessionTokens = async () => {
     const sessionExpireQuery = `
@@ -52,38 +58,27 @@ const main = async (req, res, parts) => {
 
     // TODO - MAYBE MOVE ALL THIS INTO A ROUTE SCRIPT....
 
-    // serve other requests
-    if (pathname === '/') {
-        return app.homeController.homePage(req, res)
-    } else if (pathname === '/dashboard') {
-        return app.dashboardController.dashboardPage(req, res)
-    } else if (pathname === '/api/add-food') {
-        return app.dashboardController.addFoodEaten(req, res)
-    } else if (pathname === '/api/total-calories') {
-        return app.dashboardController.getCurrentEatenFood(req, res)
-        
-    } else if (pathname === '/login') {
-        return app.loginController.loginPage(req, res)
-    } else if (pathname === '/logout') {
-        return app.loginController.logout(req, res)
+    // Handle Pages
+    if (pathname==='/') return app.homeController.homePage(req, res)
+    if (pathname==='/dashboard') return app.dashboardController.dashboardPage(req, res)
 
-    } else if (pathname === '/sign-up') {
-        return app.signupController.signupPage(req, res)
-    } else if (pathname.includes('/sign-up/validate')) {
-        return app.signupController.validateUser(req, res, parsedUrl)
+    if (pathname==='/login') return app.loginController.loginPage(req, res)
+    if (pathname==='/logout') return app.loginController.logout(req, res) // redirects to '/'
 
-    } else if (pathname === '/setup') {
-        return app.usersController.setupPage(req, res)
-    } else if (pathname === '/api/userdata') {
-        return app.fetchUserData(req, res) // change to users controller?
-    } else if (pathname === '/newdata') {
-        return app.getRawTDEE(req, res)
-    } else {
-        // show 404 page
-        app.serveFile('pages/404.html', 'text/html', res)
-    }
+    if (pathname==='/sign-up') return app.signupController.signupPage(req, res)
+    if (pathname==='/sign-up/validate') return app.signupController.validateUser(req, res, parsedUrl)
+    if (pathname==='/setup') return app.usersController.setupPage(req, res)
 
     // Handle API-specific requests with '/api/' prefix
+    if (pathname==='/api/add-food') return app.dashboardController.addFoodEaten(req, res)
+    if (pathname==='/api/total-calories') return app.dashboardController.getCurrentEatenFood(req, res)
+    // if (pathname==='/api/top-eaten') return app.dashboardController.getMostCommonEatenFood(req, res)
+    if (pathname==='/api/userdata') return app.fetchUserData(req, res) // change to users controller?
+    if (pathname==='/api/newdata') return app.getRawTDEE(req, res)
+    if (pathname==='/api/delete-eaten') return app.dashboardController.deleteFromFoodEaten(req, res)
+
+    // no such path found...
+    return app.serveFile('pages/404.html', 'text/html', res)
 }
 
 const server = http.createServer( async (req, res) => {
@@ -93,8 +88,10 @@ const server = http.createServer( async (req, res) => {
 })
 
 const onServerStart = () => {
-    LOG(`Server is running on http://${host}:${port}`)
-
+    const ipAddress = getLocalIPAddress()
+    // LOG(`Server is running on http://${host}:${port}`)
+    // if(ipAddress) LOG(`Connect to http://${ipAddress}:${port}`)
+    LOG(`Server is running on http://${ipAddress}:${port}`)
 }
 server.listen(port, host, onServerStart)
 
@@ -194,3 +191,42 @@ process
 //     res.writeHead(404, { 'Content-Type': 'text/plain' })
 //     res.end('404 Not Found')
 // }).listen(3000, () => console.log('Server running on port 3000'))
+
+
+
+
+
+
+
+
+//old way
+// // serve other requests
+// if (pathname === '/') {
+//     return app.homeController.homePage(req, res)
+// } else if (pathname === '/dashboard') {
+//     return app.dashboardController.dashboardPage(req, res)
+// } else if (pathname === '/api/add-food') {
+//     return app.dashboardController.addFoodEaten(req, res)
+// } else if (pathname === '/api/total-calories') {
+//     return app.dashboardController.getCurrentEatenFood(req, res)
+    
+// } else if (pathname === '/login') {
+//     return app.loginController.loginPage(req, res)
+// } else if (pathname === '/logout') {
+//     return app.loginController.logout(req, res)
+
+// } else if (pathname === '/sign-up') {
+//     return app.signupController.signupPage(req, res)
+// } else if (pathname.includes('/sign-up/validate')) {
+//     return app.signupController.validateUser(req, res, parsedUrl)
+
+// } else if (pathname === '/setup') {
+//     return app.usersController.setupPage(req, res)
+// } else if (pathname === '/api/userdata') {
+//     return app.fetchUserData(req, res) // change to users controller?
+// } else if (pathname === '/newdata') {
+//     return app.getRawTDEE(req, res)
+// } else {
+//     // show 404 page
+//     return app.serveFile('pages/404.html', 'text/html', res)
+// }
