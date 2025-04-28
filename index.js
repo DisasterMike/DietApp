@@ -70,7 +70,8 @@ const main = async (req, res, parts) => {
     if (pathname==='/setup') return app.usersController.setupPage(req, res)
 
     // Handle API-specific requests with '/api/' prefix
-    if (pathname==='/api/add-food') return app.dashboardController.addFoodEaten(req, res)
+    if (pathname==='/api/add-custom-food') return app.dashboardController.addFoodEaten(req, res)
+    if (pathname==='/api/eat-again') return app.dashboardController.eatAgain(req, res)
     if (pathname==='/api/total-calories') return app.dashboardController.getCurrentEatenFood(req, res)
     // if (pathname==='/api/top-eaten') return app.dashboardController.getMostCommonEatenFood(req, res)
     if (pathname==='/api/userdata') return app.fetchUserData(req, res) // change to users controller?

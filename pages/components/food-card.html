@@ -1,7 +1,16 @@
-<div>
-    <h2>{{name}}</h2>
-    <h2>{{calories}}</h2>
-    <h2>Last had {{last_eaten_at}}</h2>
+<div data-food_id="{{food_id}}" class="b-shadow" style="display: flex; flex-direction: column; position: relative; padding: 12px; border: 1px solid #dedada; border-radius: 8px; width: 180px;">
+    <button class="btn-add b-shadow" onclick="addFoodFromCard(this)" style="position: absolute; top: 10px; right: 10px;">Add</button>
+    <div class="card-img-con">
+        <img src="{{image_url}}" alt="{{alt}}" width="170px" style="margin: 0 auto; display: block;">
+    </div>
+    <div class="card-info-con" style="display: flex; flex-direction: column; justify-content: space-between; flex-grow: 1;">
+        <h3>{{name}}</h3>
+        <div style="display: flex; justify-content: space-between;">
+            <p style="margin: 0;">{{calories}} kcal</p>
+            <p style="margin: 0;">{{last_eaten_at}}</p>
+        </div>
+    </div>
+
     <!-- change to a little calendar icon using font awesome -->
     <!-- <i class="fa-solid fa-calendar-days"></i> -->
 </div>

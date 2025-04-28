@@ -14,6 +14,10 @@ ERR 2025-04-25 10:10:08 mysql/index.js:56:13 insertInto
 
 TODO - ask if you can get 19th off then you and tio will have a nice long weekend for dokapon 
 
+
+- maybe - click food cards, bring up details box
+    // i.e. how many times eaten, protein??
+
 NEXT!!! 
     -- set up font awesome AND pick a font??
     THIS INSTALLTION IS THE SIMPLE WAY.. MAYBE DO THE MORE COMPLEX VERSION??
@@ -27,9 +31,6 @@ NEXT!!!
     cp -r node_modules/@fortawesome/fontawesome-free/* public/fa/
 
 PROBLEM!! - users could flood the db with custom food....
-
-- add image_url to food table
-- use a default image for ones that don't exist
 
 - way to add custom food
     // have a table with [name, ingredient, ingr_calories]
@@ -46,6 +47,8 @@ const inputs = Array.from(document.querySelectorAll(inputQuery))
     // to fix, make the message spacing there even when the string is empty.
         // set the space to be a <br> whenever there is no text??
             // or just set it to a bunch of empty spaces ???
+
+- turn setup form's date input into 3 separate inputs...
 
 
 custom food input
@@ -77,14 +80,11 @@ setup page
 - add link to setup from dashboard even when filled out?
     - popular values from db if they exist.
 
-- make footer date not hard coded..
-
 -- change LOG split after deciding name!! (in global file)
 
 - save where the user wanted to go before forcing them to go to the login page, then redirect to there
 
-- change home, login etc links when signed in
-- make sure can't sign up or log in when already logged in
+add a favourites table??
 
 RESEARCH
 - 
@@ -98,85 +98,11 @@ oder... todo
 
 FONT AWESOME!!!!!!!!!!!!
 
-- HIDE PASSWORD IN LOGIN/SIGNUP FORM AND REPLACE WITH *s. Have button to toggle view or not...
 - forgot password button - send to email, then to reset
-- when signing up - need to check if username or password is unique (sql will do this with primary keys..)
-
-1 - send back the WHOLE html with the form info there (i guess read the html file then update the fields?)
-or
-2 - use fetch and json (better?) and then only have to touch cookies if sign in was successful
-
-
-daily data
-- user foreign key
-- DATE
-- calories
-- weight
-- some nutriants?
-- food eaten (ref to other table?) // probably not necessary
-    -- way to finalize and save total foods? that way users forgetting don't save just 400 kcal or somthing...
-
-
-tables:
-- users
-username NOT NULL UNIQUE
-name (first / second?) OPTIONAL
-gender
-age (dob) DATE
-weight
-height
-goal weight?
-weekly goal (+/- INT)???
-activity level [0-4]
-
-Sedentary	1.2	Office worker, little/no exercise - 0
-Lightly Active	1.375	Light exercise (1-3 days/week) - 1
-Moderately Active	1.55	Moderate exercise (3-5 days/week) - 2
-Very Active	1.725	Hard exercise (6-7 days/week) - 3
-Super Active	1.9	Athletes, physical labor jobs - 4
-
-{sex, age, weight, height} = BMR
-BMR * activity level = TDEE (Total Daily Energy Expenditure)
-
-- stored food (previous eaten..?)
-user foreign key
-    // need join table
-- id
-- food info (multiple columns..)
-- 
-
-JOIN 
-- user id
-- food id
-- how often eaten
-
-data table? - used to show history 
-user foreign key
-DATE
-calories eaten
-weight for that day
-
-today's food - MANY TO MANY
+- email confirmation when signing up...
 
 
 
-
-
-
-
-ideas:
-
-- front page should have '0/2000' box always on display
-    - text under saying deficit or not and how much
-
-- dashboard has popular food choices?
-    - or or favourite food items (ones you recently ate or often eat)
-
-- once a week prompts you to enter weight?
-
-- graphs to track progess
-
-- set goals?
 
 
 

@@ -7,6 +7,7 @@
     <link rel="stylesheet" href="css/style.css">
     <link rel="icon" href="/favicon.ico" />
     <script src="js/dashboard.js"></script>
+    {{fonts}}
     <style>
       .food-input{
         padding: 12px;
@@ -29,22 +30,24 @@
                 <h3 class="kcal-result" style="margin: 0;">-500</h3>
               </div>
               <ul class="food-eaten-icons" style="column-count: 3;"></ul>
-              <!-- <div>{{dashboard_contents}}</div> -->
               <!-- TODO - make this custom a drop down??? -->
               <form class="food-input" action="/add-food" method="POST">
                 <h3 style="margin: 8px 0;">Custom food input</h3>
                 <input type="text" name="food_name" id="food_name" placeholder="banana" style="padding: 6px; border: 1px solid #35631d; border-radius: 4px;">
                 <input type="number" name="food_calories" id="food_calories" placeholder="200" style="padding: 6px; border: 1px solid #35631d;  border-radius: 4px;">
                 <!-- <input type="date" name="date" id="date"> -->
-                <button class="add">Add</button>
+                <button class="btn-add">Add</button>
               </form>
             </div>
           </div>
-          <div class="recent-food-cards">
-            {{topEatenFoods}}
+          <div class="recent-food-cards" style="padding: 24px;">
+            <h2>Most eaten food</h2>
+            <div style="display: flex; overflow-x: scroll; gap: 24px; padding: 12px;">
+              {{topEatenFoods}}
+            </div>
           </div>
       </main>
-      {{footer}}
+    {{footer}}
   </div>
   </body>
 </html>

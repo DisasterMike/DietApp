@@ -136,20 +136,11 @@ const deleteFromFoodEaten = async (req, res) => {
     res.end(JSON.stringify({totalCalories})) // return total calories instead...
 }
 
-// Maybe don't use this?!?!?!?
-const getRecentEatenFood = async (req, res) => {
-    // get all foods for that user
-        // grab the last x amount - 5??
-            // return array
-
-    // return x amount of this array
-}
-
 const getMostCommonEatenFood = async (req, res) => {
     const user_id = await cookiesUtils.getCurrentUserId(req)
 
     const sqlQuery = `
-        SELECT name, calories, COUNT(*) AS times_eaten, MAX(diet.food_eaten.eaten_at) AS last_eaten_at
+        SELECT MAX(diet.food.food_id) AS food_id, name, calories, image_url, COUNT(*) AS times_eaten, MAX(diet.food_eaten.eaten_at) AS last_eaten_at
         FROM diet.food_eaten
         INNER JOIN diet.food ON diet.food_eaten.food_id = diet.food.food_id
         WHERE user_id = ?
@@ -181,14 +172,40 @@ const getMostCommonEatenFood = async (req, res) => {
                 lastEatenText = `${diff} days ago`
             }
         }
-        LOG(lastEatenText)
 
-        // return item.last_eaten_at = dayjs(lastEaten).format('YYYY-MM-DD')
-        return item.last_eaten_at = lastEatenText
+        item.alt = `image of ${item.name}`
+
+        // if image_url is NULL, add default
+        if (!item.image_url) item.image_url = 'images/defaultRecipeImage.png'
+
+        // item.last_eaten_at = dayjs(lastEaten).format('YYYY-MM-DD')
+        item.last_eaten_at = lastEatenText
     })
     return orderedEatenList
     // res.writeHead(200, { 'Content-Type': 'application/json' })
     // res.end(JSON.stringify(topFiveFoods))
+}
+
+const eatAgain = async (req, res) => {
+    const {food_id} = req.$fields
+    const user_id = await cookiesUtils.getCurrentUserId(req)
+    const foodEatenEntry = {user_id, food_id, eaten_at: dayjs().format('YYYY-MM-DD')}
+    await mysql.insertInto('diet.food_eaten', [foodEatenEntry])
+    // TODO do a try catch and return if error???
+
+    const foodList = await getFoodListForToday(req, res)
+    let totalCalories = 0
+    for (let i = 0; i < foodList.length; i++) {
+        const {calories} = foodList[i]
+        totalCalories += calories
+    }
+
+    const data = {
+        totalCalories,
+        foodList,
+    }
+    res.writeHead(201, { 'Content-Type': 'application/json' })
+    res.end(JSON.stringify(data))
 }
 
 // TODO - use this for foods you click to favourite??????
@@ -196,7 +213,7 @@ const getFavouriteFood = async (req, res) => {
 }
 
 export default { dashboardPage, addFoodEaten, getFoodListForToday, getCurrentEatenFood, deleteFromFoodEaten,
-    getMostCommonEatenFood
+    getMostCommonEatenFood, eatAgain
 }
 
 

@@ -64,17 +64,21 @@ const replaceHTML = async (obj, htmlPath) => {
 const serveFullPage = async (req, res, filePath) => {
     let html = await fs.promises.readFile(filePath, 'utf8')
     const sessionToken = await cookiesUtils.getSessionToken(req)
+
+    // add in all font links
+    const fonts = await fs.promises.readFile('pages/components/fonts.html')
+    html = html.replace('{{fonts}}', fonts)
+
     let navbar
     if (sessionToken) {
         navbar = await readHTML('pages/components/navbar.html')
     } else {
         navbar = await readHTML('pages/components/home-navbar.html')
     }
+    
     let footer = await readHTML('pages/components/footer.html')
     const copyrightText = `One2ManyHats ${dayjs().format('YYYY')}`
     footer = footer.replace('{{copyright}}', copyrightText)
-
-    // load which navbar dependng on logged in or not??
 
     html = html.replace('{{navbar}}', navbar)
     html = html.replace('{{footer}}', footer)

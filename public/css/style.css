@@ -1,7 +1,8 @@
 @import 'home/home.css';
 @import 'login/login.css';
-
 @import 'navbar.css';
+
+@import 'components/food-card.css';
 
 :root {
 
@@ -29,6 +30,8 @@ body {
     margin: 0;
     /* background-color: var(--white); */
     background-color: var(--cream-white);
+
+    font-family: "Acme", sans-serif;
 }
 
 footer {
@@ -39,11 +42,16 @@ h1 {
     color: var(--white);
 }
 
-button {
+.btn-add {
     background: var(--button);
     border: none;
     padding: 6px 12px;
     border-radius: 6px;
+    transition: 0.3s;
+    cursor: pointer;
+}
+.btn-add:hover {
+    background: var(--highlight);
 }
 
 .simple-link {
@@ -80,4 +88,9 @@ button {
 
 .d-none {
     display: none;
+}
+
+
+.b-shadow {
+    box-shadow: 4px 4px 12px rgba(0, 0, 0, 0.2);
 }
