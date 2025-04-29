@@ -27,11 +27,20 @@ const staticFiles = (req, res, fileExt) => {
         '.gif': 'image/gif',
         '.svg': 'image/svg+xml',
         '.ico': 'image/x-icon',
+        '.woff': 'font/woff',
+        '.woff2': 'font/woff2',
+        '.ttf': 'font/ttf',
+        '.eot': 'application/vnd.ms-fontobject',
+        '.otf': 'font/otf',
+        '.svg': 'image/svg+xml',
     }
     const contentType = mimeTypes[fileExt]
 
-    // if (fileExt==='.ico') return
-    // LOG('got past')
+    // if (!contentType) {
+    //     LOG('Content type not defined for file:', fileExt)
+    //     res.writeHead(415, { 'Content-Type': 'text/plain' })
+    //     return res.end('Unsupported Media Type')
+    // }
 
     serveFile(filePath, contentType, res)
 }

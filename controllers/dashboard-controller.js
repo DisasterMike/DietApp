@@ -26,6 +26,19 @@ const dashboardPage = async (req, res) => {
         }
 
         html = html.replace('{{topEatenFoods}}', cards)
+
+        // maybe remove later...
+        const user_id = await cookiesUtils.getCurrentUserId(req)
+        const allFoodEaten = await mysql.query(`
+            SELECT DISTINCT name, calories FROM diet.food_eaten
+            INNER JOIN diet.food ON food_eaten.food_id = food.food_id
+            WHERE user_id = ?
+            ORDER BY food.name;
+        `, [user_id])
+        // const uniqueFoodItems = new Set(allFoodEaten.map(f => { return {name: f.name, calories: f.calories} }))
+        let pastFoodEatenOptions
+        allFoodEaten.forEach(food => pastFoodEatenOptions += `<option value="${food.name}" data-calories="${food.calories}"></option>`)
+        html = html.replace('{{past-eaten-foods}}', pastFoodEatenOptions)
         
         res.writeHead(200, { 'Content-Type': 'text/html' })
         return res.end(html)
@@ -40,7 +53,7 @@ const getFoodListForToday = async (req, res) => {
         food_eaten.food_id = food.food_id
         WHERE user_id = ? AND eaten_at = ?;
     `
-    const foodData = await mysql.query(sqlQuery, [user_id, dayjs().format('YYYY-MM-DD 00:00:00')])
+    const foodData = await mysql.query(sqlQuery, [user_id, dayjs().format('YYYY-MM-DD 00:00:00')]) //TODO change this if not 00:00:00
     return foodData
 }
 

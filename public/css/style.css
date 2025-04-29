@@ -49,6 +49,7 @@ h1 {
     border-radius: 6px;
     transition: 0.3s;
     cursor: pointer;
+    font-weight: bold;
 }
 .btn-add:hover {
     background: var(--highlight);

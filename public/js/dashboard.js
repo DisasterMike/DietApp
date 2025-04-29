@@ -107,6 +107,23 @@ document.addEventListener('DOMContentLoaded', () => {
   }
   init()
 
+  // reset input whenever clicking..
+  const customFoodInputName = document.getElementById('food_name')
+  const customFoodInputCalories = document.getElementById('food_calories')
+  customFoodInputName.addEventListener('focus', () => {
+    customFoodInputName.value = ''
+  })
+
+  let inputFoodCalories = {}
+  const pastEatenDataList = Array.from(document.getElementById('past-eaten-foods').options)
+  pastEatenDataList.forEach(option => inputFoodCalories[option.value] = option.dataset.calories)
+  customFoodInputName.addEventListener('input', () => {
+    const food = customFoodInputName.value
+    if (inputFoodCalories[food] !== undefined) {
+      customFoodInputCalories.value = inputFoodCalories[food]
+    }
+  })
+
 
   foodForm.addEventListener('submit', async (e) => {
     e.preventDefault()

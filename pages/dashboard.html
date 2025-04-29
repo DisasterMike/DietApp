@@ -6,6 +6,7 @@
     <title>Dashboard</title>
     <link rel="stylesheet" href="css/style.css">
     <link rel="icon" href="/favicon.ico" />
+    <link rel="stylesheet" href="/fa/css/all.min.css">
     <script src="js/dashboard.js"></script>
     {{fonts}}
     <style>
@@ -33,10 +34,16 @@
               <!-- TODO - make this custom a drop down??? -->
               <form class="food-input" action="/add-food" method="POST">
                 <h3 style="margin: 8px 0;">Custom food input</h3>
-                <input type="text" name="food_name" id="food_name" placeholder="banana" style="padding: 6px; border: 1px solid #35631d; border-radius: 4px;">
-                <input type="number" name="food_calories" id="food_calories" placeholder="200" style="padding: 6px; border: 1px solid #35631d;  border-radius: 4px;">
-                <!-- <input type="date" name="date" id="date"> -->
-                <button class="btn-add">Add</button>
+                <div style="display: flex; align-items: center;">
+                  <input list="past-eaten-foods" type="text" name="food_name" id="food_name" placeholder="banana" style="padding: 6px; border: 1px solid #35631d; border-radius: 4px;">
+                  <datalist id="past-eaten-foods">
+                    {{past-eaten-foods}}
+                  </datalist>
+                  <input type="number" name="food_calories" id="food_calories" placeholder="200" style="padding: 6px; border: 1px solid #35631d; border-radius: 4px;">
+                  <!-- <input type="date" name="date" id="date"> -->
+                  <i style="font-size: 1.4rem; padding: 0 8px;" class="fa-solid fa-image"></i>
+                  <button class="btn-add">Add</button>
+                </div>
               </form>
             </div>
           </div>

@@ -48,5 +48,5 @@ const eye = document.getElementById('eye')
 eye.addEventListener('click', () => {
     const passwordBox = document.getElementById('password')
     passwordBox.type = passwordBox.type === 'password' ? 'text' : 'password'
-    eye.innerText = passwordBox.type === 'password' ? '<@>' : '<->'
+    eye.innerHTML = passwordBox.type === 'password' ? '<i class="fa-solid fa-eye-slash"></i>' : '<i class="fa-solid fa-eye"></i>'
 })
