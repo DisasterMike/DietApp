@@ -27,7 +27,8 @@ const dashboardPage = async (req, res) => {
 
         html = html.replace('{{topEatenFoods}}', cards)
 
-        // maybe remove later...
+        // maybe remove later... 
+        // TODO should this be done everytime you add new food or only when page loads????
         const user_id = await cookiesUtils.getCurrentUserId(req)
         const allFoodEaten = await mysql.query(`
             SELECT DISTINCT name, calories FROM diet.food_eaten

@@ -72,15 +72,17 @@ const replaceHTML = async (obj, htmlPath) => {
 
 const serveFullPage = async (req, res, filePath) => {
     let html = await fs.promises.readFile(filePath, 'utf8')
-    const sessionToken = await cookiesUtils.getSessionToken(req)
+    // const sessionToken = await cookiesUtils.getSessionToken(req)
+    const user = await cookiesUtils.getCurrentUser(req)
 
     // add in all font links
     const fonts = await fs.promises.readFile('pages/components/fonts.html')
     html = html.replace('{{fonts}}', fonts)
 
     let navbar
-    if (sessionToken) {
+    if (user) {
         navbar = await readHTML('pages/components/navbar.html')
+        navbar = navbar.replace('{{username}}', user.username)
     } else {
         navbar = await readHTML('pages/components/home-navbar.html')
     }

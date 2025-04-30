@@ -14,6 +14,18 @@ ERR 2025-04-25 10:10:08 mysql/index.js:56:13 insertInto
 
 TODO - ask if you can get 19th off then you and tio will have a nice long weekend for dokapon 
 
+back db
+mysqldump -u [username] -p [database_name] > backup.sql
+e.g. mysqldump -u root -p my_database > my_database_backup.sql
+restore
+mysql -u [username] -p [database_name] < backup.sql
+e.g. mysql -u root -p my_database < my_database_backup.sql
+////
+    Make sure the database (my_database) already exists before running the restore. You can create it like this:
+    mysql -u root -p -e "CREATE DATABASE my_database"
+////
+
+
 
 - maybe - click food cards, bring up details box
     // i.e. how many times eaten, protein??
